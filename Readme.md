@@ -1,7 +1,7 @@
-# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
+﻿# Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Тимур Эмиров](https://up.htmlacademy.ru/javascript/11/user/538997).
-* Наставник: `Неизвестно`.
+* Наставник: `Андрей Алексеевич`.
 
 ---
 
