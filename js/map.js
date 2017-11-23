@@ -23,6 +23,9 @@ var MAX_X = 900;
 var MIN_Y = 100;
 var MAX_Y = 500;
 
+var titleList = TITLE_LIST.slice();
+var numberList = NUMBER_LIST.slice();
+
 var getRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
@@ -36,18 +39,23 @@ var getRandomList = function (list, maxIndex){
   return resultList;  
 }
 
-var titleList = TITLE_LIST.slice();
-var numberList = NUMBER_LIST.slice();
+var getRandomElement = function(list){
+  return list.splice(getRandom(0, list.length - 1),1);
+}
 
-var ads = [
-  {
+var ads = [];
+
+var getAd = function(authorNumber){
+  var x = getRandom(MIN_X,MAX_X);
+  var y = getRandom(MIN_Y,MAX_Y);
+  var ad = {
     author: {
-      avatar: 'img/avatars/user0' + numberList.splice(0,1) + '.png'
+      avatar: 'img/avatars/user0' + numberList[authorNumber] + '.png'
     },
 
     offer: {
-	  title: titleList.splice(Math.random(0, TITLE_LIST.length - 1),1),
-	  address: '{{location.x}}, {{location.y}}',
+	  title: getRandomElement(titleList),
+	  address: x+', '+y, 
 	  price: getRandom(MIN_PRICE, MAX_PRICE),
 	  type: TYPE_LIST_ENG[getRandom(0, 2)],
 	  rooms: getRandom(MIN_ROOMS, MAX_ROOMS),
@@ -58,21 +66,28 @@ var ads = [
 	  description: '',
 	  photos: []
     },
-	
+
     location: {
-	  x: getRandom(MIN_X,MAX_X),
-	  y: getRandom(MIN_Y,MAX_Y)
+	  x: x,
+	  y: y
     }
-  },
+  }
+  return ad;
+}
 
-];
+var generateAd = function(){
+  for (var i = 0; i <= 7; i++){
+    ads[i] = getAd(i);
+  }
+  return ads;
+}
 
-var animal = new Animal("ёжик");
+generateAd();
 
 var mapPins = map.querySelector('.map__pins');
 var mapPin = mapPins.querySelector('.map__pin');
 
-var geteMapPin = function (pin) {
+var getMapPin = function (pin) {
   var mapElement = mapPin.cloneNode(true);
   
   mapElement.setAttribute('style', 'left:' + (pin.location.x  + MAP_PIN_WIDTH / 2) + 'px; top:' + (pin.location.y + MAP_PIN_HEIGHT) + 'px');
@@ -87,7 +102,7 @@ var renderMapPin = function(){
 
   var fragment = document.createDocumentFragment();
   for (var i = 1; i < ads.length; i++) {
-    fragment.appendChild(geteMapPin(ads[i]));
+    fragment.appendChild(getMapPin(ads[i]));
   }
   mapPins.appendChild(fragment);
 }
@@ -122,5 +137,3 @@ var getMapCard = function(ad){
 
 renderMapPin();
 getMapCard(ads[0]);
-
-
