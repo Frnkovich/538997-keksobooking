@@ -3,13 +3,20 @@
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-var TITLE_LIST = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
+var TITLE_LIST = ['Большая уютная квартира', 
+'Маленькая неуютная квартира', 
+'Огромный прекрасный дворец', 
+'Маленький ужасный дворец', 
+'Красивый гостевой домик', 
+'Некрасивый негостеприимный домик', 
+'Уютное бунгало далеко от моря', 
+'Неуютное бунгало по колено в воде'
+];
 var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
 var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
 var CHECKIN_LIST = ['12:00','13:00','14:00'];
 var CHECKOUT_LIST = ['12:00','13:00','14:00'];
 var FEATURES_LIST = [ 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var NUMBER_LIST = [1,2,3,4,5,6,7,8];
 var MAP_PIN_WIDTH = 40;
 var MAP_PIN_HEIGHT = 40;
 var MIN_PRICE = 1000;
@@ -23,38 +30,33 @@ var MAX_X = 900;
 var MIN_Y = 100;
 var MAX_Y = 500;
 
-var titleList = TITLE_LIST.slice();
-var numberList = NUMBER_LIST.slice();
+var titleList = getRandomArray(TITLE_LIST, 7);
 
 var getRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
-var getRandomList = function (list, maxIndex){
-  if (maxIndex > list.length) maxIndex = list.length;
-  var resultList = list.slice();
-  for (var i = 0; i <= resultList.length - maxIndex; i++){
-    resultList.splice(getRandom(0,resultList.length),1);
+function getRandomArray(array, index) {
+  array.sort(() => Math.random() - 0.5);
+  var resultArray = [];
+  for (var i = 0; i <= index; i++){
+    resultArray.push(array[i]);
   }
-  return resultList;  
-}
-
-var getRandomElement = function(list){
-  return list.splice(getRandom(0, list.length - 1),1);
+  return resultArray;
 }
 
 var ads = [];
 
-var getAd = function(authorNumber){
-  var x = getRandom(MIN_X,MAX_X);
-  var y = getRandom(MIN_Y,MAX_Y);
+var getAdData = function(authorNumber){
+  var x = getRandom(MIN_X,MAX_X) + MAP_PIN_WIDTH/2;
+  var y = getRandom(MIN_Y,MAX_Y) + MAP_PIN_HEIGHT;
   var ad = {
     author: {
-      avatar: 'img/avatars/user0' + numberList[authorNumber] + '.png'
+      avatar: 'img/avatars/user0' + (authorNumber + 1)  + '.png'
     },
 
     offer: {
-	  title: getRandomElement(titleList),
+	  title: titleList[authorNumber],
 	  address: x+', '+y, 
 	  price: getRandom(MIN_PRICE, MAX_PRICE),
 	  type: TYPE_LIST_ENG[getRandom(0, 2)],
@@ -62,7 +64,7 @@ var getAd = function(authorNumber){
 	  guests: getRandom(MIN_GUESTS,MAX_GUESTS),
 	  checkin: CHECKIN_LIST[getRandom(0,2)],
 	  checkout: CHECKOUT_LIST[getRandom(0,2)],
-	  features: getRandomList(FEATURES_LIST,getRandom(0, 5)),
+	  features: getRandomArray(FEATURES_LIST,getRandom(0, 5)),
 	  description: '',
 	  photos: []
     },
@@ -72,17 +74,18 @@ var getAd = function(authorNumber){
 	  y: y
     }
   }
+  authorNumber += 1;
   return ad;
 }
 
-var generateAd = function(){
+var fillAdsData = function(){
   for (var i = 0; i <= 7; i++){
-    ads[i] = getAd(i);
+    ads[i] = getAdData(i);
   }
   return ads;
 }
 
-generateAd();
+fillAdsData();
 
 var mapPins = map.querySelector('.map__pins');
 var mapPin = mapPins.querySelector('.map__pin');
@@ -90,14 +93,14 @@ var mapPin = mapPins.querySelector('.map__pin');
 var getMapPin = function (pin) {
   var mapElement = mapPin.cloneNode(true);
   
-  mapElement.setAttribute('style', 'left:' + (pin.location.x  + MAP_PIN_WIDTH / 2) + 'px; top:' + (pin.location.y + MAP_PIN_HEIGHT) + 'px');
+  mapElement.setAttribute('style', 'left:' + pin.location.x + 'px; top:' + pin.location.y  + 'px');
   mapElement.children[0].setAttribute('src', pin.author.avatar);
   
   return mapElement;
 }
 
 var renderMapPin = function(){
-  mapPin.setAttribute('style', 'left:' + (ads[0].location.x  + MAP_PIN_WIDTH / 2) + 'px; top:' + (ads[0].location.y + MAP_PIN_HEIGHT) + 'px');
+  mapPin.setAttribute('style', 'left:' + ads[0].location.x  + 'px; top:' + ads[0].location.y + 'px');
   mapPin.children[0].setAttribute('src', ads[0].author.avatar);
 
   var fragment = document.createDocumentFragment();
@@ -117,7 +120,7 @@ var getFeaturesList = function(features){
   for(var i = 0; i <= features.length - 1; i++){
     var newElement = document.createElement('li');
     newElement.className = 'feature feature--' + features[i];
-	liFragment.appendChild(newElement);
+    liFragment.appendChild(newElement);
   }
   ulElement.appendChild(liFragment);
 }
