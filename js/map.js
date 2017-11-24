@@ -3,22 +3,22 @@
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
-var TITLE_LIST = ['Большая уютная квартира', 
-'Маленькая неуютная квартира', 
-'Огромный прекрасный дворец', 
-'Маленький ужасный дворец', 
-'Красивый гостевой домик', 
-'Некрасивый негостеприимный домик', 
-'Уютное бунгало далеко от моря', 
-'Неуютное бунгало по колено в воде'
+var TITLE_LIST = [
+  'Большая уютная квартира', 
+  'Маленькая неуютная квартира', 
+  'Огромный прекрасный дворец', 
+  'Маленький ужасный дворец', 
+  'Красивый гостевой домик', 
+  'Некрасивый негостеприимный домик', 
+  'Уютное бунгало далеко от моря', 
+  'Неуютное бунгало по колено в воде'
 ];
 var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
 var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
-var CHECKIN_LIST = ['12:00','13:00','14:00'];
-var CHECKOUT_LIST = ['12:00','13:00','14:00'];
+var TIME_LIST = ['12:00','13:00','14:00'];
 var FEATURES_LIST = [ 'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var MAP_PIN_WIDTH = 40;
-var MAP_PIN_HEIGHT = 40;
+var MAP_PIN_WIDTH = 75;
+var MAP_PIN_HEIGHT = 87;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_ROOMS = 1;
@@ -36,8 +36,12 @@ var getRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
+function compareRandom(a, b) {
+  return Math.random() - 0.5;
+}
+
 function getRandomArray(array, index) {
-  array.sort(() => Math.random() - 0.5);
+  array.sort(compareRandom);
   var resultArray = [];
   for (var i = 0; i <= index; i++){
     resultArray.push(array[i]);
@@ -48,8 +52,8 @@ function getRandomArray(array, index) {
 var ads = [];
 
 var getAdData = function(authorNumber){
-  var x = getRandom(MIN_X,MAX_X) + MAP_PIN_WIDTH/2;
-  var y = getRandom(MIN_Y,MAX_Y) + MAP_PIN_HEIGHT;
+  var x = getRandom(MIN_X,MAX_X) - MAP_PIN_WIDTH/2;
+  var y = getRandom(MIN_Y,MAX_Y) - MAP_PIN_HEIGHT;
   var ad = {
     author: {
       avatar: 'img/avatars/user0' + (authorNumber + 1)  + '.png'
@@ -62,8 +66,8 @@ var getAdData = function(authorNumber){
 	  type: TYPE_LIST_ENG[getRandom(0, 2)],
 	  rooms: getRandom(MIN_ROOMS, MAX_ROOMS),
 	  guests: getRandom(MIN_GUESTS,MAX_GUESTS),
-	  checkin: CHECKIN_LIST[getRandom(0,2)],
-	  checkout: CHECKOUT_LIST[getRandom(0,2)],
+	  checkin: TIME_LIST[getRandom(0,2)],
+	  checkout: TIME_LIST[getRandom(0,2)],
 	  features: getRandomArray(FEATURES_LIST,getRandom(0, 5)),
 	  description: '',
 	  photos: []
