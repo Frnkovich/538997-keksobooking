@@ -4,13 +4,13 @@ var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
 var TITLE_LIST = [
-  'Большая уютная квартира', 
-  'Маленькая неуютная квартира', 
-  'Огромный прекрасный дворец', 
-  'Маленький ужасный дворец', 
-  'Красивый гостевой домик', 
-  'Некрасивый негостеприимный домик', 
-  'Уютное бунгало далеко от моря', 
+  'Большая уютная квартира',
+  'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец',
+  'Маленький ужасный дворец',
+  'Красивый гостевой домик',
+  'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
 ];
 var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
@@ -36,7 +36,7 @@ var getRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-function compareRandom(a) {
+function compareRandom() {
   return Math.random() - 0.5;
 }
 
@@ -51,7 +51,7 @@ function getRandomArray(array, index) {
 
 var ads = [];
 
-var getAdData = function(authorNumber) {
+var getAdData = function (authorNumber) {
   var x = getRandom(MIN_X, MAX_X) - MAP_PIN_WIDTH / 2;
   var y = getRandom(MIN_Y, MAX_Y) - MAP_PIN_HEIGHT;
   var ad = {
@@ -61,7 +61,7 @@ var getAdData = function(authorNumber) {
 
     offer: {
       title: titleList[authorNumber],
-      address: x+', '+y, 
+      address: x + ', ' + y,
       price: getRandom(MIN_PRICE, MAX_PRICE),
       type: TYPE_LIST_ENG[getRandom(0, 2)],
       rooms: getRandom(MIN_ROOMS, MAX_ROOMS),
@@ -82,7 +82,7 @@ var getAdData = function(authorNumber) {
   return ad;
 };
 
-var fillAdsData = function() {
+var fillAdsData = function () {
   for (var i = 0; i <= 7; i++) {
     ads[i] = getAdData(i);
   }
@@ -127,7 +127,7 @@ var getFeaturesList = function (features) {
   ulElement.appendChild(liFragment);
 };
 
-var getMapCard = function(ad) {
+var getMapCard = function (ad) {
   mapCardElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
   mapCardElement.querySelector('h3').textContent = ad.offer.title;
   mapTextElements[0].textContent = ad.offer.address;
