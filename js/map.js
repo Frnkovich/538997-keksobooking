@@ -17,7 +17,7 @@ var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
 var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
 var TIME_LIST = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var MAP_PIN_WIDTH = 75;
+var MAP_PIN_WIDTH = 65;
 var MAP_PIN_HEIGHT = 87;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
@@ -27,7 +27,7 @@ var MIN_GUESTS = 1;
 var MAX_GUESTS = 10;
 var MIN_X = 300;
 var MAX_X = 900;
-var MIN_Y = 200;
+var MIN_Y = 100;
 var MAX_Y = 500;
 
 var titleList = getRandomArray(TITLE_LIST, 7);
@@ -52,8 +52,8 @@ function getRandomArray(array, index) {
 var ads = [];
 
 var getAdData = function (authorNumber) {
-  var x = getRandom(MIN_X, MAX_X) - MAP_PIN_WIDTH / 2;
-  var y = getRandom(MIN_Y, MAX_Y) - MAP_PIN_HEIGHT;
+  var x = getRandom(MIN_X, MAX_X); 
+  var y = getRandom(MIN_Y, MAX_Y); 
   var ad = {
     author: {
       avatar: 'img/avatars/user0' + (authorNumber + 1) + '.png'
@@ -74,8 +74,8 @@ var getAdData = function (authorNumber) {
     },
 
     location: {
-      x: x,
-      y: y
+      x: x - MAP_PIN_WIDTH / 2,
+      y: y - MAP_PIN_HEIGHT
     }
   };
   authorNumber += 1;
@@ -101,7 +101,7 @@ var getMapPin = function (pin) {
   return mapElement;
 };
 
-var renderMapPin = function() {
+var renderMapPin = function () {
   mapPin.setAttribute('style', 'left:' + ads[0].location.x + 'px; top:' + ads[0].location.y + 'px');
   mapPin.children[0].setAttribute('src', ads[0].author.avatar);
 
