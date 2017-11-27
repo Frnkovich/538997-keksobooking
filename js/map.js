@@ -27,7 +27,7 @@ var MIN_GUESTS = 1;
 var MAX_GUESTS = 10;
 var MIN_X = 300;
 var MAX_X = 900;
-var MIN_Y = 100;
+var MIN_Y = 200;
 var MAX_Y = 500;
 
 var titleList = getRandomArray(TITLE_LIST, 7);
@@ -52,8 +52,8 @@ function getRandomArray(array, index) {
 var ads = [];
 
 var getAdData = function (authorNumber) {
-  var x = getRandom(MIN_X, MAX_X); 
-  var y = getRandom(MIN_Y, MAX_Y); 
+  var x = getRandom(MIN_X, MAX_X);
+  var y = getRandom(MIN_Y, MAX_Y);
   var ad = {
     author: {
       avatar: 'img/avatars/user0' + (authorNumber + 1) + '.png'
