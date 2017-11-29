@@ -112,23 +112,17 @@ var renderMapPin = function () {
 var getRoomWordEnding = function (roomsNumber) {
   if (roomsNumber === MIN_ROOMS) {
     return 'а';
-  }
-  else if (roomsNumber > MIN_ROOMS && roomsNumber < MAX_ROOMS) {
+  } else if (roomsNumber > MIN_ROOMS && roomsNumber < MAX_ROOMS) {
     return 'ы';
-  }
-  else {
+  } else {
     return '';
   }
 };
 
 var getGuestWordEnding = function (guestsNumber) {
   if (guestsNumber === MIN_GUESTS) {
-    return 'ь';
-  }
-  else if (guestsNumber > MIN_GUESTS && guestsNumber < (MAX_GUESTS / 2)) {
     return 'я';
-  }
-  else {
+  } else {
     return 'ей';
   }
 };
