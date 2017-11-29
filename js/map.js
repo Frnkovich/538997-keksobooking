@@ -110,15 +110,27 @@ var renderMapPin = function () {
 };
 
 var getRoomWordEnding = function (roomsNumber) {
-  if (roomsNumber === MIN_ROOMS) return 'а';
-  else if (roomsNumber > MIN_ROOMS && roomsNumber < MAX_ROOMS) return 'ы'
-  else return '';
+  if (roomsNumber === MIN_ROOMS) {
+    return 'а';
+  }
+  else if (roomsNumber > MIN_ROOMS && roomsNumber < MAX_ROOMS) {
+    return 'ы';
+  }
+  else {
+    return '';
+  }
 };
 
 var getGuestWordEnding = function (guestsNumber) {
-  if (guestsNumber === MIN_GUESTS) return 'ь';
-  else if (guestsNumber > MIN_GUESTS && guestsNumber < (MAX_GUESTS / 2)) return 'я'
-  else return 'ей';
+  if (guestsNumber === MIN_GUESTS) {
+    return 'ь';
+  }
+  else if (guestsNumber > MIN_GUESTS && guestsNumber < (MAX_GUESTS / 2)) {
+    return 'я';
+  }
+  else {
+    return 'ей';
+  }
 };
 
 var fillFeaturesList = function (features) {
