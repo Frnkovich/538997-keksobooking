@@ -2,6 +2,12 @@
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
+var mapPins = map.querySelector('.map__pins');
+//var mapPin = mapPins.querySelector('.map__pin');
+var mapTemplate = document.querySelector('template').content;
+var mapCardElement = mapTemplate.cloneNode(true);
+var mapTextElements = mapCardElement.querySelectorAll('p');
+var mapPin = mapTemplate.querySelector('.map__pin');
 
 var TITLE_LIST = [
   'Большая уютная квартира',
@@ -29,18 +35,18 @@ var MIN_X = 300;
 var MAX_X = 900;
 var MIN_Y = 200;
 var MAX_Y = 500;
-
-var titleList = getRandomArray(TITLE_LIST, 7);
+var titleList = TITLE_LIST.slice();
+var ads = [];
 
 var getRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-function compareRandom() {
+var compareRandom = function () {
   return Math.random() - 0.5;
 }
 
-function getRandomArray(array, index) {
+var getRandomArray = function (array, index) {
   array.sort(compareRandom);
   var resultArray = [];
   for (var i = 0; i <= index; i++) {
@@ -49,8 +55,7 @@ function getRandomArray(array, index) {
   return resultArray;
 }
 
-var ads = [];
-
+titleList = getRandomArray(titleList, 7);
 var getAdData = function (authorNumber) {
   var x = getRandom(MIN_X, MAX_X);
   var y = getRandom(MIN_Y, MAX_Y);
@@ -89,11 +94,6 @@ var fillAdsData = function () {
   return ads;
 };
 
-fillAdsData();
-
-var mapPins = map.querySelector('.map__pins');
-var mapPin = mapPins.querySelector('.map__pin');
-
 var getMapPin = function (pin) {
   var mapElement = mapPin.cloneNode(true);
   mapElement.setAttribute('style', 'left:' + pin.location.x + 'px; top:' + pin.location.y + 'px');
@@ -102,19 +102,12 @@ var getMapPin = function (pin) {
 };
 
 var renderMapPin = function () {
-  mapPin.setAttribute('style', 'left:' + ads[0].location.x + 'px; top:' + ads[0].location.y + 'px');
-  mapPin.children[0].setAttribute('src', ads[0].author.avatar);
-
   var fragment = document.createDocumentFragment();
-  for (var i = 1; i < ads.length; i++) {
+  for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(getMapPin(ads[i]));
   }
   mapPins.appendChild(fragment);
 };
-
-var mapCardTemplate = document.querySelector('template').content;
-var mapCardElement = mapCardTemplate.cloneNode(true);
-var mapTextElements = mapCardElement.querySelectorAll('p');
 
 var getFeaturesList = function (features) {
   var ulElement = mapCardElement.querySelector('.popup__features');
@@ -140,5 +133,6 @@ var getMapCard = function (ad) {
   map.appendChild(mapCardElement);
 };
 
+fillAdsData();
 renderMapPin();
 getMapCard(ads[0]);
