@@ -48,10 +48,10 @@ var compareRandom = function () {
 
 var getRandomArray = function (array, index) {
   var cloneArray = array.slice();
-  array.sort(compareRandom);
+  cloneArray.sort(compareRandom);
   var resultArray = [];
   for (var i = 0; i <= index; i++) {
-    resultArray.push(array[i]);
+    resultArray.push(cloneArray[i]);
   }
   return resultArray;
 };
@@ -83,10 +83,10 @@ var getAdData = function (authorNumber) {
       y: y
     }
   };
-  authorNumber += 1;
+  authorNumber++;
   return ad;
 };
-  
+
 var fillAdsData = function () {
   var ads = [];
   for (var i = MIN_PIN_INDEX; i <= MAX_PIN_INDEX; i++) {
