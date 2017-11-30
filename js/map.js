@@ -7,7 +7,16 @@ var mapPopup = mapTemplate.querySelector('.popup');
 var mapCardElement = mapPopup.cloneNode(true);
 var mapTextElements = mapCardElement.querySelectorAll('p');
 var mapPin = mapTemplate.querySelector('.map__pin');
+var mapPinMain = map.querySelector('.map__pin--main');
+var noticeForm = document.querySelector('.notice__form');
+var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
 
+var mapPinAll;
+var closePopup;
+var mapCard;
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var TITLE_LIST = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -35,6 +44,8 @@ var MAX_X = 900;
 var MIN_Y = 200;
 var MAX_Y = 500;
 var ADS_COUNT = 8;
+var clickedElement = null;
+var ads = [];
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -53,7 +64,7 @@ var getRandomArray = function (array, index) {
   return resultArray;
 };
 
-var getAdData = function (authorNumber) {
+var getAdData = function (authorNumber, title) {
   var x = getRandom(MIN_X, MAX_X);
   var y = getRandom(MIN_Y, MAX_Y);
   var ad = {
@@ -62,7 +73,7 @@ var getAdData = function (authorNumber) {
     },
 
     offer: {
-      title: TITLE_LIST[authorNumber],
+      title: title[authorNumber],
       address: x + ', ' + y,
       price: getRandom(MIN_PRICE, MAX_PRICE),
       type: TYPE_LIST_ENG[getRandom(0, 2)],
@@ -85,25 +96,28 @@ var getAdData = function (authorNumber) {
 
 var fillAdsData = function () {
   var ads = [];
+  title = getRandomArray(TITLE_LIST, TITLE_LIST.length)
   for (var i = 0; i < ADS_COUNT; i++) {
-    ads.push(getAdData(i));
+    ads.push(getAdData(i, title));
   }
   return ads;
 };
 
-var renderMapPin = function (pin) {
+var renderMapPin = function (pin, id) {
   var locationX = pin.location.x - MAP_PIN_WIDTH / 2;
   var locationY = pin.location.y - MAP_PIN_HEIGHT;
   var mapElement = mapPin.cloneNode(true);
-  mapElement.setAttribute('style', 'left:' + locationX + 'px; top:' + locationY + 'px');
+  mapElement.setAttribute('style', 'left:' + locationX + 'px; top:' + locationY + 'px;');
+  mapElement.setAttribute('hidden', '');
   mapElement.children[0].setAttribute('src', pin.author.avatar);
+  mapElement.setAttribute('id', id);
   return mapElement;
 };
 
 var renderPins = function (ads) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
-    fragment.appendChild(renderMapPin(ads[i]));
+    fragment.appendChild(renderMapPin(ads[i], i));
   }
   mapPins.appendChild(fragment);
 };
@@ -130,6 +144,10 @@ var getGuestWord = function (guestsNumber) {
 
 var renderFeaturesList = function (features) {
   var ulElement = mapCardElement.querySelector('.popup__features');
+  var liElement = ulElement.querySelectorAll('.feature');
+  for (var i = 0; i < liElement.length; i++){
+    ulElement.removeChild(liElement[i]);
+  }
   var liFragment = document.createDocumentFragment();
   var newElement;
   for (var i = 0; i <= features.length - 1; i++) {
@@ -150,14 +168,105 @@ var renderMapCard = function (ad) {
   mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
   renderFeaturesList(ad.offer.features);
   mapTextElements[4].textContent = ad.offer.description;
-  map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
+  mapCardElement.setAttribute('hidden', '');
+  map.insertBefore(mapCardElement, map.querySelector('.map__filters-container')); 
+};
+
+var disabledFieldsets = function (fieldsetArray) {
+  for (var i = 0; i < noticeFormFieldset.length; i++){
+    fieldsetArray[i].setAttribute('disabled', true);
+  }
+};
+
+var showMapPins = function (mapPinArray) {
+  for (var i = 0; i < mapPinArray.length; i++){
+    mapPinArray[i].removeAttribute('hidden');
+  }
+};
+
+var unabledFieldsets = function (fieldsetArray) {
+  for (var i = 0; i < noticeFormFieldset.length ; i++){
+    fieldsetArray[i].removeAttribute('disabled');
+  }
+};
+
+var onMapPinMain = function () {
+  map.classList.remove('map--faded');
+  unabledFieldsets(noticeFormFieldset);
+  showMapPins(mapPinAll);
+};
+
+var onMapPinClick = function (evt) {
+  if (clickedElement) {
+    clickedElement.classList.remove('map__pin--active');
+  }
+  clickedElement = evt.currentTarget;
+  clickedElement.classList.add('map__pin--active');
+  renderMapCard(ads[clickedElement.id]);
+  mapCard = map.querySelector('.popup');
+  mapCard.removeAttribute('hidden');
+};
+
+var onMapPinKeydown = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    if (clickedElement) {
+      clickedElement.classList.remove('map__pin--active');
+    }
+    clickedElement = evt.currentTarget;
+    clickedElement.classList.add('map__pin--active');
+    renderMapCard(ads[clickedElement.id]);
+	mapCard = map.querySelector('.popup');
+	mapCard.removeAttribute('hidden');
+  }
+};
+
+
+var onClosePopupClick = function () {
+  mapCard.setAttribute('hidden', '');
+  if (clickedElement) {
+      clickedElement.classList.remove('map__pin--active');
+  }
+};
+
+var onClosePopupKeydown = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE){
+    mapCard.setAttribute('hidden', '');
+    if (clickedElement) {
+       clickedElement.classList.remove('map__pin--active');
+    }
+  }
+};
+
+var onMapKeydown = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE){
+    mapCard.setAttribute('hidden', '');
+    if (clickedElement) {
+       clickedElement.classList.remove('map__pin--active');
+    }
+  }
+};
+
+var handleAllMapPin = function () {
+  for (var i = 1; i < mapPinAll.length; i++) {
+    mapPinAll[i].addEventListener('click', onMapPinClick, true);
+	mapPinAll[i].addEventListener('keydown', onMapPinKeydown, true);
+  }
 };
 
 var renderAll = function () {
-  var ads = fillAdsData();
+  ads = fillAdsData();
   renderPins(ads);
+  disabledFieldsets(noticeFormFieldset);
+
   renderMapCard(ads[0]);
-  map.classList.remove('map--faded');
+  mapCard = map.querySelector('.popup');
+  closePopup = map.querySelector('.popup__close')
+  mapPinAll = mapPins.querySelectorAll('.map__pin');
 };
 
 renderAll();
+mapPinMain.addEventListener('mouseup', onMapPinMain);
+closePopup.addEventListener('click', onClosePopupClick);
+closePopup.addEventListener('keydown', onClosePopupKeydown);
+map.addEventListener('keydown', onMapKeydown);
+handleAllMapPin();
