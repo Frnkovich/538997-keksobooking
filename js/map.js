@@ -35,8 +35,7 @@ var MIN_X = 300;
 var MAX_X = 900;
 var MIN_Y = 200;
 var MAX_Y = 500;
-var MIN_PIN_INDEX = 0;
-var MAX_PIN_INDEX = 7;
+var PINS_COUNT = 8;
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -88,7 +87,7 @@ var getAdData = function (authorNumber) {
 
 var fillAdsData = function () {
   var ads = [];
-  for (var i = MIN_PIN_INDEX; i <= MAX_PIN_INDEX; i++) {
+  for (var i = 0; i < PINS_COUNT; i++) {
     ads.push(getAdData(i));
   }
   return ads;
