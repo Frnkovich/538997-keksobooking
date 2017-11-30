@@ -7,7 +7,7 @@ var mapTemplate = document.querySelector('template').content;
 var mapPopup = mapTemplate.querySelector('.popup');
 var mapCardElement = mapPopup.cloneNode(true);
 var mapTextElements = mapCardElement.querySelectorAll('p');
-var mapPin = mapTemplate.querySelector('.map__pin--main');
+var mapPin = mapTemplate.querySelector('.map__pin');
 
 var TITLE_LIST = [
   'Большая уютная квартира',
@@ -23,8 +23,8 @@ var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
 var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
 var TIME_LIST = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var MAP_PIN_WIDTH = 65;
-var MAP_PIN_HEIGHT = 87;
+var MAP_PIN_WIDTH = 40;
+var MAP_PIN_HEIGHT = 61.4167;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_ROOMS = 1;
@@ -149,7 +149,7 @@ var getMapCard = function (ad) {
   mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
   fillFeaturesList(ad.offer.features);
   mapTextElements[4].textContent = ad.offer.description;
-  map.appendChild(mapCardElement);
+  map.insertBefore(mapCardElement, map.childNodes[2]);
 };
 
 var ads = fillAdsData();
