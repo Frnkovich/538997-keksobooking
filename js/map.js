@@ -143,7 +143,7 @@ var renderFeaturesList = function (features) {
   ulElement.appendChild(liFragment);
 };
 
-var getMapCard = function (ad) {
+var renderMapCard = function (ad) {
   mapCardElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
   mapCardElement.querySelector('h3').textContent = ad.offer.title;
   mapTextElements[0].textContent = ad.offer.address;
@@ -156,10 +156,10 @@ var getMapCard = function (ad) {
   map.insertBefore(mapCardElement, map.childNodes[2]);
 };
 
-var doAllWork = function () {
+var renderAll = function () {
   var ads = fillAdsData();
   renderPins(ads);
-  getMapCard(ads[0]); 
+  renderMapCard(ads[0]); 
 };
 
-doAllWork();
+renderAll();
