@@ -95,8 +95,7 @@ var getAdData = function (authorNumber, title) {
 };
 
 var fillAdsData = function () {
-  var ads = [];
-  title = getRandomArray(TITLE_LIST, TITLE_LIST.length)
+  var title = getRandomArray(TITLE_LIST, TITLE_LIST.length);
   for (var i = 0; i < ADS_COUNT; i++) {
     ads.push(getAdData(i, title));
   }
@@ -114,7 +113,7 @@ var renderMapPin = function (pin, id) {
   return mapElement;
 };
 
-var renderPins = function (ads) {
+var renderPins = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
     fragment.appendChild(renderMapPin(ads[i], i));
@@ -145,12 +144,12 @@ var getGuestWord = function (guestsNumber) {
 var renderFeaturesList = function (features) {
   var ulElement = mapCardElement.querySelector('.popup__features');
   var liElement = ulElement.querySelectorAll('.feature');
-  for (var i = 0; i < liElement.length; i++){
+  for (var i = 0; i < liElement.length; i++) {
     ulElement.removeChild(liElement[i]);
   }
   var liFragment = document.createDocumentFragment();
   var newElement;
-  for (var i = 0; i <= features.length - 1; i++) {
+  for (i = 0; i <= features.length - 1; i++) {
     newElement = document.createElement('li');
     newElement.className = 'feature feature--' + features[i];
     liFragment.appendChild(newElement);
@@ -169,23 +168,23 @@ var renderMapCard = function (ad) {
   renderFeaturesList(ad.offer.features);
   mapTextElements[4].textContent = ad.offer.description;
   mapCardElement.setAttribute('hidden', '');
-  map.insertBefore(mapCardElement, map.querySelector('.map__filters-container')); 
+  map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
 };
 
 var disabledFieldsets = function (fieldsetArray) {
-  for (var i = 0; i < noticeFormFieldset.length; i++){
+  for (var i = 0; i < noticeFormFieldset.length; i++) {
     fieldsetArray[i].setAttribute('disabled', true);
   }
 };
 
 var showMapPins = function (mapPinArray) {
-  for (var i = 0; i < mapPinArray.length; i++){
+  for (var i = 0; i < mapPinArray.length; i++) {
     mapPinArray[i].removeAttribute('hidden');
   }
 };
 
 var unabledFieldsets = function (fieldsetArray) {
-  for (var i = 0; i < noticeFormFieldset.length ; i++){
+  for (var i = 0; i < noticeFormFieldset.length; i++) {
     fieldsetArray[i].removeAttribute('disabled');
   }
 };
@@ -215,8 +214,8 @@ var onMapPinKeydown = function (evt) {
     clickedElement = evt.currentTarget;
     clickedElement.classList.add('map__pin--active');
     renderMapCard(ads[clickedElement.id]);
-	mapCard = map.querySelector('.popup');
-	mapCard.removeAttribute('hidden');
+    mapCard = map.querySelector('.popup');
+    mapCard.removeAttribute('hidden');
   }
 };
 
@@ -224,24 +223,24 @@ var onMapPinKeydown = function (evt) {
 var onClosePopupClick = function () {
   mapCard.setAttribute('hidden', '');
   if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
+    clickedElement.classList.remove('map__pin--active');
   }
 };
 
 var onClosePopupKeydown = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE){
+  if (evt.keyCode === ENTER_KEYCODE) {
     mapCard.setAttribute('hidden', '');
     if (clickedElement) {
-       clickedElement.classList.remove('map__pin--active');
+      clickedElement.classList.remove('map__pin--active');
     }
   }
 };
 
 var onMapKeydown = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE){
+  if (evt.keyCode === ESC_KEYCODE) {
     mapCard.setAttribute('hidden', '');
     if (clickedElement) {
-       clickedElement.classList.remove('map__pin--active');
+      clickedElement.classList.remove('map__pin--active');
     }
   }
 };
@@ -249,7 +248,7 @@ var onMapKeydown = function (evt) {
 var handleAllMapPin = function () {
   for (var i = 1; i < mapPinAll.length; i++) {
     mapPinAll[i].addEventListener('click', onMapPinClick, true);
-	mapPinAll[i].addEventListener('keydown', onMapPinKeydown, true);
+    mapPinAll[i].addEventListener('keydown', onMapPinKeydown, true);
   }
 };
 
@@ -260,7 +259,7 @@ var renderAll = function () {
 
   renderMapCard(ads[0]);
   mapCard = map.querySelector('.popup');
-  closePopup = map.querySelector('.popup__close')
+  closePopup = map.querySelector('.popup__close');
   mapPinAll = mapPins.querySelectorAll('.map__pin');
 };
 
