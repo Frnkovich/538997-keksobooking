@@ -7,7 +7,6 @@ var mapPopup = mapTemplate.querySelector('.popup');
 var mapCardElement = mapPopup.cloneNode(true);
 var mapTextElements = mapCardElement.querySelectorAll('p');
 var mapPin = mapTemplate.querySelector('.map__pin');
-map.classList.remove('map--faded');
 
 var TITLE_LIST = [
   'Большая уютная квартира',
@@ -35,7 +34,7 @@ var MIN_X = 300;
 var MAX_X = 900;
 var MIN_Y = 200;
 var MAX_Y = 500;
-var PINS_COUNT = 8;
+var ADS_COUNT = 8;
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -46,7 +45,7 @@ var compareRandom = function () {
 };
 
 var getRandomArray = function (array, index) {
-  var cloneArray = array.slice().sort(compareRandom);;
+  var cloneArray = array.slice().sort(compareRandom);
   var resultArray = [];
   for (var i = 0; i <= index; i++) {
     resultArray.push(cloneArray[i]);
@@ -81,13 +80,12 @@ var getAdData = function (authorNumber) {
       y: y
     }
   };
-  authorNumber++;
   return ad;
 };
 
 var fillAdsData = function () {
   var ads = [];
-  for (var i = 0; i < PINS_COUNT; i++) {
+  for (var i = 0; i < ADS_COUNT; i++) {
     ads.push(getAdData(i));
   }
   return ads;
@@ -95,7 +93,7 @@ var fillAdsData = function () {
 
 var renderMapPin = function (pin) {
   var locationX = pin.location.x - MAP_PIN_WIDTH / 2;
-  var locationY = pin.location.y - MAP_PIN_HEIGHT
+  var locationY = pin.location.y - MAP_PIN_HEIGHT;
   var mapElement = mapPin.cloneNode(true);
   mapElement.setAttribute('style', 'left:' + locationX + 'px; top:' + locationY + 'px');
   mapElement.children[0].setAttribute('src', pin.author.avatar);
@@ -152,13 +150,14 @@ var renderMapCard = function (ad) {
   mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
   renderFeaturesList(ad.offer.features);
   mapTextElements[4].textContent = ad.offer.description;
-  map.insertBefore(mapCardElement, map.childNodes[2]);
+  map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
 };
 
 var renderAll = function () {
   var ads = fillAdsData();
   renderPins(ads);
-  renderMapCard(ads[0]); 
+  renderMapCard(ads[0]);
+  map.classList.remove('map--faded');
 };
 
 renderAll();
