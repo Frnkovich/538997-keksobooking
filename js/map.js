@@ -183,7 +183,7 @@ var showMapPins = function (mapPinArray) {
   }
 };
 
-var unableFieldsets = function (fieldsetArray) {
+var enableFieldsets = function (fieldsetArray) {
   noticeForm.classList.remove('notice__form--disabled');
   for (var i = 0; i < fieldsetArray.length; i++) {
     fieldsetArray[i].removeAttribute('disabled');
@@ -191,11 +191,12 @@ var unableFieldsets = function (fieldsetArray) {
 };
 
 var openMapCard = function (evt) {
+  if (evt.explicitOriginalTarget.classList.contains('map__pin') && (!(evt.explicitOriginalTarget.classList.contains('map__pin--main')))){
   if (clickedElement) {
     clickedElement.classList.remove('map__pin--active');
   }
   clickedElement = evt.explicitOriginalTarget;
-  if (clickedElement.hasAttribute('style')){
+
     clickedElement.classList.add('map__pin--active');
     renderMapCard(ads[clickedElement.id]);
     mapCard = map.querySelector('.popup');
@@ -203,37 +204,28 @@ var openMapCard = function (evt) {
   }
 };
 
-var closeMapCard = function () {
+var closeMapCard = function (evt) {
   mapCard.setAttribute('hidden', '');
-  if (clickedElement.hasAttribute('style')) {
+  if (clickedElement) {
     clickedElement.classList.remove('map__pin--active');
   }
 };
 
 var onMapPinMain = function () {
   map.classList.remove('map--faded');
-  unableFieldsets(noticeFormFieldset);
+  enableFieldsets(noticeFormFieldset);
   showMapPins(mapPinAll);
 };
 
-var onMapPinClick = function (evt) {
-  openMapCard(evt);
-};
-
-var onMapPinKeydown = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+var onMapPin = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
     openMapCard(evt);
   }
 };
 
-
-var onClosePopupClick = function () {
-  closeMapCard();
-};
-
-var onClosePopupKeydown = function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    closeMapCard();
+var onClosePopup = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
+    closeMapCard(evt);
   }
 };
 
@@ -256,8 +248,8 @@ var renderAll = function () {
 
 renderAll();
 mapPinMain.addEventListener('mouseup', onMapPinMain);
-closePopup.addEventListener('click', onClosePopupClick);
-closePopup.addEventListener('keydown', onClosePopupKeydown);
+closePopup.addEventListener('click', onClosePopup);
+closePopup.addEventListener('keydown', onClosePopup);
 map.addEventListener('keydown', onMapKeydown);
-mapPins.addEventListener('click', onMapPinClick, true);
-mapPins.addEventListener('keydown', onMapPinKeydown, true);
+mapPins.addEventListener('click', onMapPin);
+mapPins.addEventListener('keydown', onMapPin);
