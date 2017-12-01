@@ -190,13 +190,18 @@ var enableFieldsets = function (fieldsetArray) {
   }
 };
 
-var openMapCard = function (evt) {
-  if (evt.explicitOriginalTarget.classList.contains('map__pin') && (!(evt.explicitOriginalTarget.classList.contains('map__pin--main')))){
-  if (clickedElement) {
-    clickedElement.classList.remove('map__pin--active');
-  }
-  clickedElement = evt.explicitOriginalTarget;
+var isMapPin = function (classList) {
+  if (classList.contains('map__pin') && (!(classList.contains('map__pin--main')))){
+    return true;
+  }; return false	
+};
 
+var openMapCard = function (evt) {
+  if (isMapPin(evt.explicitOriginalTarget.classList)){
+    if (clickedElement) {
+      clickedElement.classList.remove('map__pin--active');
+    }
+    clickedElement = evt.explicitOriginalTarget;
     clickedElement.classList.add('map__pin--active');
     renderMapCard(ads[clickedElement.id]);
     mapCard = map.querySelector('.popup');
@@ -204,7 +209,7 @@ var openMapCard = function (evt) {
   }
 };
 
-var closeMapCard = function (evt) {
+var closeMapCard = function () {
   mapCard.setAttribute('hidden', '');
   if (clickedElement) {
     clickedElement.classList.remove('map__pin--active');
