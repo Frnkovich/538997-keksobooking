@@ -184,18 +184,13 @@ var showMapPins = function (mapPinArray) {
 };
 
 var unabledFieldsets = function (fieldsetArray) {
+  noticeForm.classList.remove('notice__form--disabled');
   for (var i = 0; i < noticeFormFieldset.length; i++) {
     fieldsetArray[i].removeAttribute('disabled');
   }
 };
 
-var onMapPinMain = function () {
-  map.classList.remove('map--faded');
-  unabledFieldsets(noticeFormFieldset);
-  showMapPins(mapPinAll);
-};
-
-var onMapPinClick = function (evt) {
+var openMapCard = function (evt) {
   if (clickedElement) {
     clickedElement.classList.remove('map__pin--active');
   }
@@ -204,44 +199,45 @@ var onMapPinClick = function (evt) {
   renderMapCard(ads[clickedElement.id]);
   mapCard = map.querySelector('.popup');
   mapCard.removeAttribute('hidden');
+}
+
+var closeMapCard = function () {
+  mapCard.setAttribute('hidden', '');
+  if (clickedElement) {
+    clickedElement.classList.remove('map__pin--active');
+  }
+}
+
+var onMapPinMain = function () {
+  map.classList.remove('map--faded');
+  unabledFieldsets(noticeFormFieldset);
+  showMapPins(mapPinAll);
+};
+
+var onMapPinClick = function (evt) {
+  openMapCard(evt);
 };
 
 var onMapPinKeydown = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
-    }
-    clickedElement = evt.currentTarget;
-    clickedElement.classList.add('map__pin--active');
-    renderMapCard(ads[clickedElement.id]);
-    mapCard = map.querySelector('.popup');
-    mapCard.removeAttribute('hidden');
+    openMapCard(evt);
   }
 };
 
 
 var onClosePopupClick = function () {
-  mapCard.setAttribute('hidden', '');
-  if (clickedElement) {
-    clickedElement.classList.remove('map__pin--active');
-  }
+  closeMapCard();
 };
 
 var onClosePopupKeydown = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    mapCard.setAttribute('hidden', '');
-    if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
-    }
+    closeMapCard();
   }
 };
 
 var onMapKeydown = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    mapCard.setAttribute('hidden', '');
-    if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
-    }
+    closeMapCard();
   }
 };
 
