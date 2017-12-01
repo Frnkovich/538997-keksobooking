@@ -205,7 +205,7 @@ var openMapCard = function (evt) {
 
 var closeMapCard = function () {
   mapCard.setAttribute('hidden', '');
-  if (clickedElement) {
+  if (clickedElement.hasAttribute('style')) {
     clickedElement.classList.remove('map__pin--active');
   }
 };
@@ -251,6 +251,7 @@ var renderAll = function () {
   renderMapCard(ads[0]);
   mapCard = map.querySelector('.popup');
   closePopup = map.querySelector('.popup__close');
+  mapPinAll = mapPins.querySelectorAll('.map__pin');
 };
 
 renderAll();
