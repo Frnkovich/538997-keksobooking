@@ -196,11 +196,15 @@ var isMapPin = function (classList) {
 
 var openMapCard = function (evt) {
   if (evt.target !== evt.currentTarget) {
-    if (isMapPin(evt.target.classList)) {
+    if (isMapPin(evt.target.classList) || isMapPin(evt.target.offsetParent.classList)) {
       if (clickedElement) {
         clickedElement.classList.remove('map__pin--active');
       }
-      clickedElement = evt.target;
+	  if (isMapPin(evt.target.classList)) {
+	    clickedElement = evt.target;
+	  } else if (isMapPin(evt.target.offsetParent.classList)) {
+		clickedElement = evt.target.offsetParent;
+	  }
       clickedElement.classList.add('map__pin--active');
       renderMapCard(ads[clickedElement.id]);
       mapCard = map.querySelector('.popup');
@@ -255,6 +259,6 @@ renderAll();
 mapPinMain.addEventListener('mouseup', onMapPinMain);
 closePopup.addEventListener('click', onClosePopup);
 closePopup.addEventListener('keydown', onClosePopup);
-map.addEventListener('keydown', onMapKeydown);
+document.addEventListener('keydown', onMapKeydown);
 mapPins.addEventListener('click', onMapPin, false);
 mapPins.addEventListener('keydown', onMapPin);
