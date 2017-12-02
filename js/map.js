@@ -261,4 +261,3 @@ var renderAll = function () {
 };
 
 renderAll();
-
