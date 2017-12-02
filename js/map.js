@@ -191,13 +191,13 @@ var enableFieldsets = function (fieldsetArray) {
 };
 
 var isMapPin = function (classList) {
-  if (classList.contains('map__pin') && (!(classList.contains('map__pin--main')))){
+  if (classList.contains('map__pin') && (!(classList.contains('map__pin--main')))) {
     return true;
-  }; return false	
+  } return false;
 };
 
 var openMapCard = function (evt) {
-  if (isMapPin(evt.explicitOriginalTarget.classList)){
+  if (isMapPin(evt.explicitOriginalTarget.classList)) {
     if (clickedElement) {
       clickedElement.classList.remove('map__pin--active');
     }
