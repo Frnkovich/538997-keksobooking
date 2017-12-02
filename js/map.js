@@ -7,7 +7,16 @@ var mapPopup = mapTemplate.querySelector('.popup');
 var mapCardElement = mapPopup.cloneNode(true);
 var mapTextElements = mapCardElement.querySelectorAll('p');
 var mapPin = mapTemplate.querySelector('.map__pin');
+var mapPinMain = map.querySelector('.map__pin--main');
+var noticeForm = document.querySelector('.notice__form');
+var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
 
+var mapPinAll;
+var closePopup;
+var mapCard;
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var TITLE_LIST = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -35,6 +44,8 @@ var MAX_X = 900;
 var MIN_Y = 200;
 var MAX_Y = 500;
 var ADS_COUNT = 8;
+var clickedElement = null;
+var ads = [];
 
 var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -53,7 +64,7 @@ var getRandomArray = function (array, index) {
   return resultArray;
 };
 
-var getAdData = function (authorNumber) {
+var getAdData = function (authorNumber, title) {
   var x = getRandom(MIN_X, MAX_X);
   var y = getRandom(MIN_Y, MAX_Y);
   var ad = {
@@ -62,7 +73,7 @@ var getAdData = function (authorNumber) {
     },
 
     offer: {
-      title: TITLE_LIST[authorNumber],
+      title: title[authorNumber],
       address: x + ', ' + y,
       price: getRandom(MIN_PRICE, MAX_PRICE),
       type: TYPE_LIST_ENG[getRandom(0, 2)],
@@ -84,26 +95,28 @@ var getAdData = function (authorNumber) {
 };
 
 var fillAdsData = function () {
-  var ads = [];
+  var title = getRandomArray(TITLE_LIST, TITLE_LIST.length);
   for (var i = 0; i < ADS_COUNT; i++) {
-    ads.push(getAdData(i));
+    ads.push(getAdData(i, title));
   }
   return ads;
 };
 
-var renderMapPin = function (pin) {
+var renderMapPin = function (pin, id) {
   var locationX = pin.location.x - MAP_PIN_WIDTH / 2;
   var locationY = pin.location.y - MAP_PIN_HEIGHT;
   var mapElement = mapPin.cloneNode(true);
-  mapElement.setAttribute('style', 'left:' + locationX + 'px; top:' + locationY + 'px');
+  mapElement.setAttribute('style', 'left:' + locationX + 'px; top:' + locationY + 'px;');
+  mapElement.setAttribute('hidden', '');
   mapElement.children[0].setAttribute('src', pin.author.avatar);
+  mapElement.setAttribute('id', id);
   return mapElement;
 };
 
-var renderPins = function (ads) {
+var renderPins = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < ads.length; i++) {
-    fragment.appendChild(renderMapPin(ads[i]));
+    fragment.appendChild(renderMapPin(ads[i], i));
   }
   mapPins.appendChild(fragment);
 };
@@ -130,9 +143,13 @@ var getGuestWord = function (guestsNumber) {
 
 var renderFeaturesList = function (features) {
   var ulElement = mapCardElement.querySelector('.popup__features');
+  var liElement = ulElement.querySelectorAll('.feature');
+  for (var i = 0; i < liElement.length; i++) {
+    ulElement.removeChild(liElement[i]);
+  }
   var liFragment = document.createDocumentFragment();
   var newElement;
-  for (var i = 0; i <= features.length - 1; i++) {
+  for (i = 0; i <= features.length - 1; i++) {
     newElement = document.createElement('li');
     newElement.className = 'feature feature--' + features[i];
     liFragment.appendChild(newElement);
@@ -150,14 +167,97 @@ var renderMapCard = function (ad) {
   mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
   renderFeaturesList(ad.offer.features);
   mapTextElements[4].textContent = ad.offer.description;
+  mapCardElement.setAttribute('hidden', '');
   map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
 };
 
-var renderAll = function () {
-  var ads = fillAdsData();
-  renderPins(ads);
-  renderMapCard(ads[0]);
+var disableFieldsets = function (fieldsetArray) {
+  for (var i = 0; i < fieldsetArray.length; i++) {
+    fieldsetArray[i].setAttribute('disabled', true);
+  }
+};
+
+var showMapPins = function (mapPinArray) {
+  for (var i = 0; i < mapPinArray.length; i++) {
+    mapPinArray[i].removeAttribute('hidden');
+  }
+};
+
+var enableFieldsets = function (fieldsetArray) {
+  noticeForm.classList.remove('notice__form--disabled');
+  for (var i = 0; i < fieldsetArray.length; i++) {
+    fieldsetArray[i].removeAttribute('disabled');
+  }
+};
+
+var isMapPin = function (classList) {
+  return classList.contains('map__pin') && !classList.contains('map__pin--main');
+};
+
+var openMapCard = function (evt) {
+  if (evt.target !== evt.currentTarget) {
+    var pinClicked = isMapPin(evt.target.classList);
+    var imageClicked = isMapPin(evt.target.parentElement .classList);
+    if (pinClicked || imageClicked) {
+      if (clickedElement) {
+        clickedElement.classList.remove('map__pin--active');
+      }
+      clickedElement = pinClicked ? evt.target : evt.target.parentElement;
+      clickedElement.classList.add('map__pin--active');
+      renderMapCard(ads[clickedElement.id]);
+      mapCard = map.querySelector('.popup');
+      mapCard.removeAttribute('hidden');
+    }
+  } evt.stopPropagation();
+};
+
+var closeMapCard = function () {
+  mapCard.setAttribute('hidden', '');
+  if (clickedElement) {
+    clickedElement.classList.remove('map__pin--active');
+  }
+};
+
+var onMapPinMain = function () {
   map.classList.remove('map--faded');
+  enableFieldsets(noticeFormFieldset);
+  showMapPins(mapPinAll);
+};
+
+var onMapPin = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
+    openMapCard(evt);
+  }
+};
+
+var onClosePopup = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
+    closeMapCard(evt);
+  }
+};
+
+var onMapKeydown = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeMapCard();
+  }
+};
+
+var renderAll = function () {
+  ads = fillAdsData();
+  renderPins(ads);
+  disableFieldsets(noticeFormFieldset);
+
+  renderMapCard(ads[0]);
+  mapCard = map.querySelector('.popup');
+  closePopup = map.querySelector('.popup__close');
+  mapPinAll = mapPins.querySelectorAll('.map__pin');
+
+  mapPinMain.addEventListener('mouseup', onMapPinMain);
+  closePopup.addEventListener('click', onClosePopup);
+  closePopup.addEventListener('keydown', onClosePopup);
+  document.addEventListener('keydown', onMapKeydown);
+  mapPins.addEventListener('click', onMapPin, false);
+  mapPins.addEventListener('keydown', onMapPin);
 };
 
 renderAll();
