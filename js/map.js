@@ -196,13 +196,13 @@ var isMapPin = function (classList) {
 
 var openMapCard = function (evt) {
   if (evt.target !== evt.currentTarget) {
-    var target = isMapPin(evt.target.classList);
-	var targetParent = isMapPin(evt.target.parentElement .classList);
-    if (target || targetParent) {
+    var pinClicked = isMapPin(evt.target.classList);
+    var imageClicked = isMapPin(evt.target.parentElement .classList);
+    if (pinClicked || imageClicked) {
       if (clickedElement) {
         clickedElement.classList.remove('map__pin--active');
       }
-      target ? clickedElement = evt.target : clickedElement = evt.target.parentElement;
+      clickedElement = pinClicked ? evt.target : evt.target.parentElement;
       clickedElement.classList.add('map__pin--active');
       renderMapCard(ads[clickedElement.id]);
       mapCard = map.querySelector('.popup');
