@@ -171,7 +171,7 @@ var renderMapCard = function (ad) {
   map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
 };
 
-var disabledFieldsets = function (fieldsetArray) {
+var disableFieldsets = function (fieldsetArray) {
   for (var i = 0; i < fieldsetArray.length; i++) {
     fieldsetArray[i].setAttribute('disabled', true);
   }
@@ -191,22 +191,22 @@ var enableFieldsets = function (fieldsetArray) {
 };
 
 var isMapPin = function (classList) {
-  if (classList.contains('map__pin') && (!(classList.contains('map__pin--main')))) {
-    return true;
-  } return false;
+  return classList.contains('map__pin') && !classList.contains('map__pin--main');
 };
 
 var openMapCard = function (evt) {
-  if (isMapPin(evt.explicitOriginalTarget.classList)) {
-    if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
+  if (evt.target !== evt.currentTarget) {
+    if (isMapPin(evt.target.classList)) {
+      if (clickedElement) {
+        clickedElement.classList.remove('map__pin--active');
+      }
+      clickedElement = evt.target;
+      clickedElement.classList.add('map__pin--active');
+      renderMapCard(ads[clickedElement.id]);
+      mapCard = map.querySelector('.popup');
+      mapCard.removeAttribute('hidden');
     }
-    clickedElement = evt.explicitOriginalTarget;
-    clickedElement.classList.add('map__pin--active');
-    renderMapCard(ads[clickedElement.id]);
-    mapCard = map.querySelector('.popup');
-    mapCard.removeAttribute('hidden');
-  }
+  } evt.stopPropagation();
 };
 
 var closeMapCard = function () {
@@ -243,7 +243,7 @@ var onMapKeydown = function (evt) {
 var renderAll = function () {
   ads = fillAdsData();
   renderPins(ads);
-  disabledFieldsets(noticeFormFieldset);
+  disableFieldsets(noticeFormFieldset);
 
   renderMapCard(ads[0]);
   mapCard = map.querySelector('.popup');
@@ -256,5 +256,5 @@ mapPinMain.addEventListener('mouseup', onMapPinMain);
 closePopup.addEventListener('click', onClosePopup);
 closePopup.addEventListener('keydown', onClosePopup);
 map.addEventListener('keydown', onMapKeydown);
-mapPins.addEventListener('click', onMapPin);
+mapPins.addEventListener('click', onMapPin, false);
 mapPins.addEventListener('keydown', onMapPin);
