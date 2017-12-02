@@ -202,7 +202,7 @@ var openMapCard = function (evt) {
       if (clickedElement) {
         clickedElement.classList.remove('map__pin--active');
       }
-      clickedElement = pinClicked ? evt.target : evt.target.parentElement;
+	  clickedElement = pinClicked ? evt.target : evt.target.parentElement;
       clickedElement.classList.add('map__pin--active');
       renderMapCard(ads[clickedElement.id]);
       mapCard = map.querySelector('.popup');
@@ -251,12 +251,14 @@ var renderAll = function () {
   mapCard = map.querySelector('.popup');
   closePopup = map.querySelector('.popup__close');
   mapPinAll = mapPins.querySelectorAll('.map__pin');
+  
+  mapPinMain.addEventListener('mouseup', onMapPinMain);
+  closePopup.addEventListener('click', onClosePopup);
+  closePopup.addEventListener('keydown', onClosePopup);
+  document.addEventListener('keydown', onMapKeydown);
+  mapPins.addEventListener('click', onMapPin, false);
+  mapPins.addEventListener('keydown', onMapPin);
 };
 
 renderAll();
-mapPinMain.addEventListener('mouseup', onMapPinMain);
-closePopup.addEventListener('click', onClosePopup);
-closePopup.addEventListener('keydown', onClosePopup);
-document.addEventListener('keydown', onMapKeydown);
-mapPins.addEventListener('click', onMapPin, false);
-mapPins.addEventListener('keydown', onMapPin);
+
