@@ -289,7 +289,7 @@ var onSelectTypeLodging = function (evt) {
     default:
       inputPrice.min = '10000';
       break;
-    }
+  }
 };
 
 var onSelectTimeIn = function (evt) {
