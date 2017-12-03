@@ -252,8 +252,8 @@ var onMapPinMain = function (evt) {
   noticeForm.classList.remove('notice__form--disabled');
   enableField(noticeFormFieldset);
   showMapPins(mapPinAll);
-  var y = clickedMapPinMain.offsetTop + MAP_PIN_MAIN_WIDTH / 2;
-  var x = clickedMapPinMain.offsetLeft + MAP_PIN_MAIN_HEIGHT;
+  var y = clickedMapPinMain.offsetTop + MAP_PIN_MAIN_HEIGHT;
+  var x = clickedMapPinMain.offsetLeft +  MAP_PIN_MAIN_WIDTH / 2;
   inputAddress.value = 'Y:' + y + ' X:' + x;
 };
 
@@ -276,14 +276,19 @@ var onMapKeydown = function (evt) {
 };
 
 var onSelectTypeLodging = function (evt) {
-  if (evt.target.value === 'bungalo') {
+  switch(evt.target.value) {
+  case 'bungalo':
     inputPrice.min = '0';
-  } else if (evt.target.value === 'flat') {
+    break;
+  case 'flat':
     inputPrice.min = '1000';
-  } else if (evt.target.value === 'house') {
+    break;
+  case 'house':
     inputPrice.min = '5000';
-  } else {
+    break;
+  default:
     inputPrice.min = '10000';
+    break;
   }
 };
 
