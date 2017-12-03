@@ -10,7 +10,14 @@ var mapPin = mapTemplate.querySelector('.map__pin');
 var mapPinMain = map.querySelector('.map__pin--main');
 var noticeForm = document.querySelector('.notice__form');
 var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
-
+var inputAddress = noticeForm.querySelector('#address');
+var selectTypeLodging = noticeForm.querySelector('#type');
+var inputPrice = noticeForm.querySelector('#price');
+var selectTimeIn = noticeForm.querySelector('#timein');
+var selectTimeOut = noticeForm.querySelector('#timeout');
+var selectRoomNumber = noticeForm.querySelector('#room_number');
+var selectGuestNumber = noticeForm.querySelector('#capacity');
+var optionsGuestNumber = selectGuestNumber.querySelectorAll('option');
 var mapPinAll;
 var closePopup;
 var mapCard;
@@ -33,6 +40,8 @@ var TIME_LIST = ['12:00', '13:00', '14:00'];
 var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var MAP_PIN_WIDTH = 46;
 var MAP_PIN_HEIGHT = 64;
+var MAP_PIN_MAIN_WIDTH = 65;
+var MAP_PIN_MAIN_HEIGHT = 87;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var MIN_ROOMS = 1;
@@ -171,9 +180,9 @@ var renderMapCard = function (ad) {
   map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
 };
 
-var disableFieldsets = function (fieldsetArray) {
-  for (var i = 0; i < fieldsetArray.length; i++) {
-    fieldsetArray[i].setAttribute('disabled', true);
+var disableField = function (fieldArray) {
+  for (var i = 0; i < fieldArray.length; i++) {
+    fieldArray[i].setAttribute('disabled', true);
   }
 };
 
@@ -183,10 +192,9 @@ var showMapPins = function (mapPinArray) {
   }
 };
 
-var enableFieldsets = function (fieldsetArray) {
-  noticeForm.classList.remove('notice__form--disabled');
-  for (var i = 0; i < fieldsetArray.length; i++) {
-    fieldsetArray[i].removeAttribute('disabled');
+var enableField = function (fieldArray) {
+  for (var i = 0; i < fieldArray.length; i++) {
+    fieldArray[i].removeAttribute('disabled');
   }
 };
 
@@ -208,7 +216,8 @@ var openMapCard = function (evt) {
       mapCard = map.querySelector('.popup');
       mapCard.removeAttribute('hidden');
     }
-  } evt.stopPropagation();
+  }
+  evt.stopPropagation();
 };
 
 var closeMapCard = function () {
@@ -218,10 +227,34 @@ var closeMapCard = function () {
   }
 };
 
-var onMapPinMain = function () {
+var changeField = function (field, changeValue) {
+  field.value = changeValue;
+};
+
+var getGuestArray = function (num) {
+  var guestOptions = [];
+  if (num) {
+    for (var i = 0; i < optionsGuestNumber.length - 1; i++) {
+      if (optionsGuestNumber[i].value <= num) {
+        guestOptions.push(optionsGuestNumber[i]);
+      }
+    }
+  } else {
+    guestOptions.push(optionsGuestNumber[3]);
+  }
+  return guestOptions;
+};
+
+var onMapPinMain = function (evt) {
+  var pinClicked = evt.target.classList.contains('map__pin--main');
+  var clickedMapPinMain = pinClicked ? evt.target : evt.target.parentElement;
   map.classList.remove('map--faded');
-  enableFieldsets(noticeFormFieldset);
+  noticeForm.classList.remove('notice__form--disabled');
+  enableField(noticeFormFieldset);
   showMapPins(mapPinAll);
+  var y = clickedMapPinMain.offsetTop + MAP_PIN_MAIN_WIDTH / 2;
+  var x = clickedMapPinMain.offsetLeft + MAP_PIN_HEIGHT;
+  inputAddress.value ='Y:' + y + " X:" + x;
 };
 
 var onMapPin = function (evt) {
@@ -242,15 +275,44 @@ var onMapKeydown = function (evt) {
   }
 };
 
+var onSelectTypeLodging = function (evt) {
+  if (evt.target.value === 'bungalo') {
+    inputPrice.min = "0";
+  } else if (evt.target.value === 'flat') {
+    inputPrice.min = "1000";
+  } else if (evt.target.value === 'house') {
+    inputPrice.min = "5000";
+  } else {
+    inputPrice.min = "10000";
+  }
+};
+
+var onSelectTimeIn = function (evt) {
+  changeField(selectTimeOut, evt.target.value);
+};
+
+var onSelectTimeOut = function (evt) {
+  changeField(selectTimeIn, evt.target.value);
+};
+
+var onSelectRoomNumber = function (evt) {
+  var guestValue = evt.target.value < 100 ? evt.target.value : 0;
+  changeField(selectGuestNumber, guestValue);
+  disableField(optionsGuestNumber);
+  enableField(getGuestArray(guestValue));
+};
+
 var renderAll = function () {
   ads = fillAdsData();
   renderPins(ads);
-  disableFieldsets(noticeFormFieldset);
+  disableField(noticeFormFieldset);
 
   renderMapCard(ads[0]);
   mapCard = map.querySelector('.popup');
   closePopup = map.querySelector('.popup__close');
   mapPinAll = mapPins.querySelectorAll('.map__pin');
+  disableField(optionsGuestNumber);
+  enableField(getGuestArray(1));
 
   mapPinMain.addEventListener('mouseup', onMapPinMain);
   closePopup.addEventListener('click', onClosePopup);
@@ -258,6 +320,10 @@ var renderAll = function () {
   document.addEventListener('keydown', onMapKeydown);
   mapPins.addEventListener('click', onMapPin, false);
   mapPins.addEventListener('keydown', onMapPin);
+  selectTypeLodging.addEventListener('change', onSelectTypeLodging);
+  selectTimeIn.addEventListener('change', onSelectTimeIn);
+  selectTimeOut.addEventListener('change', onSelectTimeOut);
+  selectRoomNumber.addEventListener('change', onSelectRoomNumber);
 };
 
 renderAll();
