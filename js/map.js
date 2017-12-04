@@ -180,7 +180,7 @@ var renderMapCard = function (ad) {
   map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
 };
 
-var disableField = function (fieldArray) {
+var disableFields = function (fieldArray) {
   for (var i = 0; i < fieldArray.length; i++) {
     fieldArray[i].setAttribute('disabled', true);
   }
@@ -192,7 +192,7 @@ var showMapPins = function (mapPinArray) {
   }
 };
 
-var enableField = function (fieldArray) {
+var enableFields = function (fieldArray) {
   for (var i = 0; i < fieldArray.length; i++) {
     fieldArray[i].removeAttribute('disabled');
   }
@@ -231,7 +231,7 @@ var changeField = function (field, changeValue) {
   field.value = changeValue;
 };
 
-var getGuestArray = function (num) {
+var getGuestsArray = function (num) {
   var guestOptions = [];
   if (num) {
     for (var i = 0; i < optionsGuestNumber.length - 1; i++) {
@@ -250,11 +250,11 @@ var onMapPinMain = function (evt) {
   var clickedMapPinMain = pinClicked ? evt.target : evt.target.parentElement;
   map.classList.remove('map--faded');
   noticeForm.classList.remove('notice__form--disabled');
-  enableField(noticeFormFieldset);
+  enableFields(noticeFormFieldset);
   showMapPins(mapPinAll);
   var y = clickedMapPinMain.offsetTop + MAP_PIN_MAIN_HEIGHT;
   var x = clickedMapPinMain.offsetLeft + MAP_PIN_MAIN_WIDTH / 2;
-  inputAddress.value = 'Y:' + y + ' X:' + x;
+  inputAddress.value = x + ', ' + y;
 };
 
 var onMapPin = function (evt) {
@@ -303,21 +303,21 @@ var onSelectTimeOut = function (evt) {
 var onSelectRoomNumber = function (evt) {
   var guestValue = evt.target.value < 100 ? evt.target.value : 0;
   changeField(selectGuestNumber, guestValue);
-  disableField(optionsGuestNumber);
-  enableField(getGuestArray(guestValue));
+  disableFields(optionsGuestNumber);
+  enableFields(getGuestsArray(guestValue));
 };
 
 var renderAll = function () {
   ads = fillAdsData();
   renderPins(ads);
-  disableField(noticeFormFieldset);
+  disableFields(noticeFormFieldset);
 
   renderMapCard(ads[0]);
   mapCard = map.querySelector('.popup');
   closePopup = map.querySelector('.popup__close');
   mapPinAll = mapPins.querySelectorAll('.map__pin');
-  disableField(optionsGuestNumber);
-  enableField(getGuestArray(1));
+  disableFields(optionsGuestNumber);
+  enableFields(getGuestsArray(1));
 
   mapPinMain.addEventListener('mouseup', onMapPinMain);
   closePopup.addEventListener('click', onClosePopup);
