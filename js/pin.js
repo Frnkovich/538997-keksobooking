@@ -38,7 +38,7 @@
     mapPins.appendChild(fragment);
   };
 
-  var onMainPinClick  = function (evt) {
+  var onMainPinClick = function (evt) {
     var pinClicked = evt.target.classList.contains('map__pin--main');
     var clickedMapPinMain = pinClicked ? evt.target : evt.target.parentElement;
     map.classList.remove('map--faded');
@@ -53,6 +53,6 @@
 
   window.pin = {
     renderPins: renderPins,
-    onMainPinClick : onMainPinClick 
+    onMainPinClick: onMainPinClick
   };
 })();

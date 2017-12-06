@@ -47,7 +47,7 @@
     ulElement.appendChild(liFragment);
   };
 
-  var renderAd  = function (ad) {
+  var renderAd = function (ad) {
     mapCardElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
     mapCardElement.querySelector('h3').textContent = ad.offer.title;
     mapTextElements[0].textContent = ad.offer.address;
@@ -59,9 +59,9 @@
     mapTextElements[4].textContent = ad.offer.description;
     mapCardElement.setAttribute('hidden', '');
     map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
-  }
+  };
 
   window.card = {
-    renderAd : renderAd
+    renderAd: renderAd
   };
 })();

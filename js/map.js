@@ -25,7 +25,7 @@
         }
         clickedElement = pinClicked ? evt.target : evt.target.parentElement;
         clickedElement.classList.add('map__pin--active');
-        window.card.renderAd (window.data.getAds[clickedElement.id]);
+        window.card.renderAd(window.data.getAds[clickedElement.id]);
         mapCard = map.querySelector('.popup');
         mapCard.removeAttribute('hidden');
       }
@@ -61,9 +61,9 @@
   var renderMap = (function () {
     window.pin.renderPins(window.data.getAds);
     window.data.disableFormFields(noticeFormFieldset);
-    window.card.renderAd (window.data.getAds[0]);
+    window.card.renderAd(window.data.getAds[0]);
     var closePopup = map.querySelector('.popup__close');
-    mapPinMain.addEventListener('mouseup', window.pin.onMainPinClick );
+    mapPinMain.addEventListener('mouseup', window.pin.onMainPinClick);
     closePopup.addEventListener('click', onClosePopup);
     closePopup.addEventListener('keydown', onClosePopup);
     document.addEventListener('keydown', onMapKeydown);
