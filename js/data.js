@@ -10,7 +10,7 @@
     'Некрасивый негостеприимный домик',
     'Уютное бунгало далеко от моря',
     'Неуютное бунгало по колено в воде'
- ];
+  ];
   var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
   var TIME_LIST = ['12:00', '13:00', '14:00'];
   var FEATURES_LIST = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -43,7 +43,7 @@
     return resultArray;
   };
 
- var getAdData = function (authorNumber, title) {
+  var getAdData = function (authorNumber, title) {
     var x = getRandom(MIN_X, MAX_X);
     var y = getRandom(MIN_Y, MAX_Y);
     var ad = {
@@ -55,6 +55,7 @@
         title: title[authorNumber],
         address: x + ', ' + y,
         price: getRandom(MIN_PRICE, MAX_PRICE),
+        type: TYPE_LIST_ENG[getRandom(0, 2)],
         rooms: getRandom(MIN_ROOMS, MAX_ROOMS),
         guests: getRandom(MIN_GUESTS, MAX_GUESTS),
         checkin: TIME_LIST[getRandom(0, 2)],

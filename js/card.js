@@ -46,9 +46,9 @@
     }
     ulElement.appendChild(liFragment);
   };
-  
+
   window.card = {
-    renderMapCard : function (ad) {
+    renderMapCard: function (ad) {
       mapCardElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
       mapCardElement.querySelector('h3').textContent = ad.offer.title;
       mapTextElements[0].textContent = ad.offer.address;
@@ -61,5 +61,5 @@
       mapCardElement.setAttribute('hidden', '');
       map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
     }
-  }
+  };
 })();

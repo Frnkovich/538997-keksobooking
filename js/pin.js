@@ -31,14 +31,14 @@
   };
 
   window.pin = {
-    renderPins : function () {
+    renderPins: function () {
       var fragment = document.createDocumentFragment();
       for (var i = 0; i < window.data.ads.length; i++) {
         fragment.appendChild(renderMapPin(window.data.ads[i], i));
       }
       mapPins.appendChild(fragment);
     },
-    onMapPinMain : function (evt) {
+    onMapPinMain: function (evt) {
       var pinClicked = evt.target.classList.contains('map__pin--main');
       var clickedMapPinMain = pinClicked ? evt.target : evt.target.parentElement;
       map.classList.remove('map--faded');
@@ -50,5 +50,5 @@
       var x = clickedMapPinMain.offsetLeft + MAP_PIN_MAIN_WIDTH / 2;
       inputAddress.value = x + ', ' + y;
     }
-  }
+  };
 })();
