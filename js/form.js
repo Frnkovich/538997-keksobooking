@@ -24,7 +24,7 @@
     return guestOptions;
   };
 
-  var changeField = function (field, changeValue) {
+  var setFieldValue = function (field, changeValue) {
     field.value = changeValue;
   };
 
@@ -46,24 +46,30 @@
   };
 
   var onSelectTimeIn = function (evt) {
-    changeField(selectTimeOut, evt.target.value);
+    setFieldValue(selectTimeOut, evt.target.value);
   };
 
   var onSelectTimeOut = function (evt) {
-    changeField(selectTimeIn, evt.target.value);
+    setFieldValue(selectTimeIn, evt.target.value);
   };
 
   var onSelectRoomNumber = function (evt) {
     var guestValue = evt.target.value < 100 ? evt.target.value : 0;
-    changeField(selectGuestNumber, guestValue);
-    window.data.disableFields(optionsGuestNumber);
-    window.data.enableFields(getGuestsArray(guestValue));
+    setFieldValue(selectGuestNumber, guestValue);
+    window.data.disableFormFields(optionsGuestNumber);
+    window.data.enableFormFields(getGuestsArray(guestValue));
   };
 
-  window.data.disableFields(optionsGuestNumber);
-  window.data.enableFields(getGuestsArray(1));
-  selectTypeLodging.addEventListener('change', onSelectTypeLodging);
-  selectTimeIn.addEventListener('change', onSelectTimeIn);
-  selectTimeOut.addEventListener('change', onSelectTimeOut);
-  selectRoomNumber.addEventListener('change', onSelectRoomNumber);
+  var renderForm = (function () {
+    window.data.disableFormFields(optionsGuestNumber);
+    window.data.enableFormFields(getGuestsArray(1));
+    selectTypeLodging.addEventListener('change', onSelectTypeLodging);
+    selectTimeIn.addEventListener('change', onSelectTimeIn);
+    selectTimeOut.addEventListener('change', onSelectTimeOut);
+    selectRoomNumber.addEventListener('change', onSelectRoomNumber);
+  })();
+
+  window.form = {
+    renderForm: renderForm
+  };
 })();

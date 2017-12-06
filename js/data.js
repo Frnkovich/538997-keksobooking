@@ -73,24 +73,30 @@
     return ad;
   };
 
-  window.data = {
-    ads: (function () {
-      var ads = [];
-      var title = getRandomArray(TITLE_LIST, TITLE_LIST.length);
-      for (var i = 0; i < ADS_COUNT; i++) {
-        ads.push(getAdData(i, title));
-      }
-      return ads;
-    })(),
-    disableFields: function (fieldArray) {
-      for (var i = 0; i < fieldArray.length; i++) {
-        fieldArray[i].setAttribute('disabled', true);
-      }
-    },
-    enableFields: function (fieldArray) {
-      for (var i = 0; i < fieldArray.length; i++) {
-        fieldArray[i].removeAttribute('disabled');
-      }
+  var getAds = (function () {
+    var ads = [];
+    var title = getRandomArray(TITLE_LIST, TITLE_LIST.length);
+    for (var i = 0; i < ADS_COUNT; i++) {
+      ads.push(getAdData(i, title));
     }
+    return ads;
+  })();
+
+  var disableFormFields = function (fieldArray) {
+    for (var i = 0; i < fieldArray.length; i++) {
+      fieldArray[i].setAttribute('disabled', true);
+    }
+  };
+
+  var enableFormFields = function (fieldArray) {
+    for (var i = 0; i < fieldArray.length; i++) {
+      fieldArray[i].removeAttribute('disabled');
+    }
+  };
+
+  window.data = {
+    getAds: getAds,
+    disableFormFields: disableFormFields,
+    enableFormFields: enableFormFields
   };
 })();

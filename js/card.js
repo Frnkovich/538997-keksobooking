@@ -47,19 +47,21 @@
     ulElement.appendChild(liFragment);
   };
 
+  var renderAd  = function (ad) {
+    mapCardElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
+    mapCardElement.querySelector('h3').textContent = ad.offer.title;
+    mapTextElements[0].textContent = ad.offer.address;
+    mapCardElement.querySelector('.popup__price').textContent = ad.offer.price + '/ночь';
+    mapCardElement.querySelector('h4').textContent = TYPE_LIST_RUS[TYPE_LIST_ENG.indexOf(ad.offer.type)];
+    mapTextElements[2].textContent = ad.offer.rooms + ' ' + getRoomWord(ad.offer.rooms) + ' для ' + ad.offer.guests + ' ' + getGuestWord(ad.offer.guests);
+    mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
+    renderFeaturesList(ad.offer.features);
+    mapTextElements[4].textContent = ad.offer.description;
+    mapCardElement.setAttribute('hidden', '');
+    map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
+  }
+
   window.card = {
-    renderMapCard: function (ad) {
-      mapCardElement.querySelector('.popup__avatar').setAttribute('src', ad.author.avatar);
-      mapCardElement.querySelector('h3').textContent = ad.offer.title;
-      mapTextElements[0].textContent = ad.offer.address;
-      mapCardElement.querySelector('.popup__price').textContent = ad.offer.price + '/ночь';
-      mapCardElement.querySelector('h4').textContent = TYPE_LIST_RUS[TYPE_LIST_ENG.indexOf(ad.offer.type)];
-      mapTextElements[2].textContent = ad.offer.rooms + ' ' + getRoomWord(ad.offer.rooms) + ' для ' + ad.offer.guests + ' ' + getGuestWord(ad.offer.guests);
-      mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
-      renderFeaturesList(ad.offer.features);
-      mapTextElements[4].textContent = ad.offer.description;
-      mapCardElement.setAttribute('hidden', '');
-      map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
-    }
+    renderAd : renderAd
   };
 })();
