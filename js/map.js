@@ -58,7 +58,7 @@
     }
   };
 
-  var renderMap = (function () {
+  var renderMap = function () {
     window.pin.renderPins(window.data.getAds);
     window.data.disableFormFields(noticeFormFieldset);
     window.card.renderAd(window.data.getAds[0]);
@@ -69,9 +69,9 @@
     document.addEventListener('keydown', onMapKeydown);
     mapPins.addEventListener('click', onMapPin, false);
     mapPins.addEventListener('keydown', onMapPin);
-  })();
+  };
 
   window.map = {
-    renderMap: renderMap
+    renderMap: renderMap()
   };
 })();

@@ -60,16 +60,16 @@
     window.data.enableFormFields(getGuestsArray(guestValue));
   };
 
-  var renderForm = (function () {
+  var renderForm = function () {
     window.data.disableFormFields(optionsGuestNumber);
     window.data.enableFormFields(getGuestsArray(1));
     selectTypeLodging.addEventListener('change', onSelectTypeLodging);
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
-  })();
+  };
 
   window.form = {
-    renderForm: renderForm
+    renderForm: renderForm()
   };
 })();
