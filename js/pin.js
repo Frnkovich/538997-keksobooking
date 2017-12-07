@@ -3,8 +3,6 @@
 (function () {
   var MAP_PIN_WIDTH = 46;
   var MAP_PIN_HEIGHT = 64;
-  var MAP_PIN_MAIN_WIDTH = 65;
-  var MAP_PIN_MAIN_HEIGHT = 87;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var mapTemplate = document.querySelector('template').content;
@@ -37,7 +35,7 @@
     mapPins.appendChild(fragment);
   };
 
-  var onMainPinClick = function (evt) {
+  var onMainPinClick = function () {
     map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
     window.data.enableFormFields(noticeFormFieldset);
