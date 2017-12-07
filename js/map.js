@@ -70,8 +70,8 @@
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
-     };
-     var onMouseMove = function (moveEvt) {
+    };
+    var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -87,20 +87,20 @@
 
       if ((newY <= MAX_Y) && (newY >= MIN_Y)) {
         mapPinMain.style.top = newY + 'px';
-      };
+      }
       if ((newX <= MAX_X) && (newX >= MIN_X)) {
         mapPinMain.style.left = newX + 'px';
-     };
+      }
       var inputX = newX + MAP_PIN_MAIN_WIDTH / 2;
       var inputY = newY + MAP_PIN_MAIN_HEIGHT;
       inputAddress.value = inputX + ', ' + inputY;
-     };
+    };
 
     var onMouseUp = function (upEvt) {
-     upEvt.preventDefault();
-     window.pin.onMainPinClick(upEvt);
-     document.removeEventListener('mousemove', onMouseMove);
-     document.removeEventListener('mouseup', onMouseUp);
+      upEvt.preventDefault();
+      window.pin.onMainPinClick(upEvt);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
 
     document.addEventListener('mousemove', onMouseMove);

@@ -38,8 +38,6 @@
   };
 
   var onMainPinClick = function (evt) {
-    var pinClicked = evt.target.classList.contains('map__pin--main');
-    var clickedMapPinMain = pinClicked ? evt.target : evt.target.parentElement;
     map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
     window.data.enableFormFields(noticeFormFieldset);
