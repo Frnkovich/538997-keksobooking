@@ -10,7 +10,6 @@
   var MIN_Y = 150;
   var MAX_Y = 650;
   var clickedElement = null;
-  var mouseDown = false;
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
   var noticeForm = document.querySelector('.notice__form');
@@ -66,47 +65,47 @@
     }
   };
 
-var onMainPin = function (evt) {
-  evt.preventDefault();
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-   };
-   var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+  var onMainPin = function (evt) {
+    evt.preventDefault();
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+     };
+     var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+      var newY = mapPinMain.offsetTop - shift.y;
+      var newX = mapPinMain.offsetLeft - shift.x;
+
+      if ((newY <= MAX_Y) && (newY >= MIN_Y)) {
+        mapPinMain.style.top = newY + 'px';
+      };
+      if ((newX <= MAX_X) && (newX >= MIN_X)) {
+        mapPinMain.style.left = newX + 'px';
+     };
+      var inputX = newX + MAP_PIN_MAIN_WIDTH / 2;
+      var inputY = newY + MAP_PIN_MAIN_HEIGHT;
+      inputAddress.value = inputX + ', ' + inputY;
+     };
+
+    var onMouseUp = function (upEvt) {
+     upEvt.preventDefault();
+     window.pin.onMainPinClick(upEvt);
+     document.removeEventListener('mousemove', onMouseMove);
+     document.removeEventListener('mouseup', onMouseUp);
     };
 
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-    var newY = mapPinMain.offsetTop - shift.y;
-    var newX = mapPinMain.offsetLeft - shift.x;
-
-    if ((newY <= MAX_Y) && (newY >= MIN_Y)) {
-      mapPinMain.style.top = newY + 'px';
-    };
-    if ((newX <= MAX_X) && (newX >= MIN_X)) {
-      mapPinMain.style.left = newX + 'px';
-   };
-    var inputX = newX + MAP_PIN_MAIN_WIDTH / 2;
-    var inputY = newY + MAP_PIN_MAIN_HEIGHT;
-    inputAddress.value = inputX + ', ' + inputY;
-   };
-
-  var onMouseUp = function (upEvt) {
-   upEvt.preventDefault();
-   window.pin.onMainPinClick(upEvt);
-   document.removeEventListener('mousemove', onMouseMove);
-   document.removeEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-};
 
   var renderMap = function () {
     window.pin.renderPins(window.data.getAds);
