@@ -33,11 +33,11 @@
     field.value = changeValue;
   };
 
-  var syncValueWithMin  = function (field, changeValue) {
+  var syncValueWithMin = function (field, changeValue) {
     field.min = changeValue;
   };
 
-  var onSelectTypeLodging = function (evt) {
+  var onSelectTypeLodging = function () {
     window.synchronizeFields(selectTypeLodging, inputPrice, TYPE_LIST, PRICES_PER_NIGHT, syncValueWithMin);
   };
 
