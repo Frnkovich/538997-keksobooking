@@ -25,6 +25,7 @@
   var MIN_GUESTS = 1;
   var MAX_GUESTS = 10;
   var ADS_COUNT = 8;
+  var clickedElement = null;
 
   var getRandom = function (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -97,6 +98,7 @@
   window.data = {
     getAds: getAds,
     disableFormFields: disableFormFields,
-    enableFormFields: enableFormFields
+    enableFormFields: enableFormFields,
+    clickedElement: clickedElement
   };
 })();

@@ -9,10 +9,15 @@
   var selectRoomNumber = noticeForm.querySelector('#room_number');
   var selectGuestNumber = noticeForm.querySelector('#capacity');
   var optionsGuestNumber = selectGuestNumber.querySelectorAll('option');
+  var TYPE_LIST = ['flat', 'bungalo', 'house', 'palace'];
+  var PRICES_PER_NIGHT = ['1000', '0', '5000', '10000'];
+  var TIME_LIST = ['12:00', '13:00', '14:00'];
+  var ROOMS_NUMBERS = ['1', '2', '3', '100'];
+  var GUESTS_NUMBERS = ['1', '2', '3', '0'];
 
   var getGuestsArray = function (num) {
     var guestOptions = [];
-    if (num) {
+    if (num < 100) {
       for (var i = 0; i < optionsGuestNumber.length - 1; i++) {
         if (optionsGuestNumber[i].value <= num) {
           guestOptions.push(optionsGuestNumber[i]);
@@ -24,40 +29,30 @@
     return guestOptions;
   };
 
-  var setFieldValue = function (field, changeValue) {
+  var syncValues = function (field, changeValue) {
     field.value = changeValue;
   };
 
+  var syncValueWithMin  = function (field, changeValue) {
+    field.min = changeValue;
+  };
+
   var onSelectTypeLodging = function (evt) {
-    switch (evt.target.value) {
-      case 'bungalo':
-        inputPrice.min = '0';
-        break;
-      case 'flat':
-        inputPrice.min = '1000';
-        break;
-      case 'house':
-        inputPrice.min = '5000';
-        break;
-      default:
-        inputPrice.min = '10000';
-        break;
-    }
+    window.synchronizeFields(selectTypeLodging, inputPrice, TYPE_LIST, PRICES_PER_NIGHT, syncValueWithMin);
   };
 
-  var onSelectTimeIn = function (evt) {
-    setFieldValue(selectTimeOut, evt.target.value);
+  var onSelectTimeIn = function () {
+    window.synchronizeFields(selectTimeIn, selectTimeOut, TIME_LIST, TIME_LIST, syncValues);
   };
 
-  var onSelectTimeOut = function (evt) {
-    setFieldValue(selectTimeIn, evt.target.value);
+  var onSelectTimeOut = function () {
+    window.synchronizeFields(selectTimeOut, selectTimeIn, TIME_LIST, TIME_LIST, syncValues);
   };
 
   var onSelectRoomNumber = function (evt) {
-    var guestValue = evt.target.value < 100 ? evt.target.value : 0;
-    setFieldValue(selectGuestNumber, guestValue);
+    window.synchronizeFields(selectRoomNumber, selectGuestNumber, ROOMS_NUMBERS, GUESTS_NUMBERS, syncValues);
     window.data.disableFormFields(optionsGuestNumber);
-    window.data.enableFormFields(getGuestsArray(guestValue));
+    window.data.enableFormFields(getGuestsArray(evt.target.value));
   };
 
   var renderForm = function () {
