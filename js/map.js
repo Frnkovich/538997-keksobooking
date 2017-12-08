@@ -93,7 +93,7 @@
       }
       var inputX = newX + MAP_PIN_MAIN_WIDTH / 2;
       var inputY = newY + MAP_PIN_MAIN_HEIGHT;
-      inputAddress.value = inputX + ', ' + inputY;
+      inputAddress.value = 'x: ' + inputX + ', y: ' + inputY;
     };
 
     var onMouseUp = function (upEvt) {
