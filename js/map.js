@@ -9,53 +9,44 @@
   var MAX_X = 1150;
   var MIN_Y = 150;
   var MAX_Y = 650;
-  var clickedElement = null;
+
   var map = document.querySelector('.map');
   var mapPinMain = map.querySelector('.map__pin--main');
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
   var mapPins = map.querySelector('.map__pins');
-  var mapCard = map.querySelector('.popup');
   var inputAddress = noticeForm.querySelector('#address');
+  var mapCard = map.querySelector('.popup');
+
+  var hideAd = function () {
+    mapCard.setAttribute('hidden', '');
+    if (window.data.clickedElement) {
+      window.data.clickedElement.classList.remove('map__pin--active');
+    }
+  };
 
   var isMapPin = function (classList) {
     return classList.contains('map__pin') && !classList.contains('map__pin--main');
   };
 
-  var showAd = function (evt) {
-    if (evt.target !== evt.currentTarget) {
-      var pinClicked = isMapPin(evt.target.classList);
-      var imageClicked = isMapPin(evt.target.parentElement .classList);
-      if (pinClicked || imageClicked) {
-        if (clickedElement) {
-          clickedElement.classList.remove('map__pin--active');
-        }
-        clickedElement = pinClicked ? evt.target : evt.target.parentElement;
-        clickedElement.classList.add('map__pin--active');
-        window.card.renderAd(window.data.getAds[clickedElement.id]);
-        mapCard = map.querySelector('.popup');
-        mapCard.removeAttribute('hidden');
-      }
-    }
-    evt.stopPropagation();
-  };
-
-  var hideAd = function () {
-    mapCard.setAttribute('hidden', '');
-    if (clickedElement) {
-      clickedElement.classList.remove('map__pin--active');
-    }
-  };
-
   var onMapPin = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
-      showAd(evt);
+      if (evt.target !== evt.currentTarget) {
+        var pinClicked = isMapPin(evt.target.classList);
+        var imageClicked = isMapPin(evt.target.parentElement .classList);
+        if (pinClicked || imageClicked) {
+          window.showCard(evt, pinClicked);
+          mapCard = map.querySelector('.popup');
+          mapCard.removeAttribute('hidden');
+        }
+      }
+      evt.stopPropagation();
     }
   };
 
   var onClosePopup = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
-      hideAd(evt);
+      hideAd();
     }
   };
 
