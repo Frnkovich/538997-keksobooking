@@ -28,9 +28,10 @@
   };
 
   var renderPins = function () {
+
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.getAds.length; i++) {
-      fragment.appendChild(renderMapPin(window.data.getAds[i], i));
+    for (var i = 0; i < window.data.ads.length - 1; i++) {
+      fragment.appendChild(renderMapPin(window.data.ads[i], i));
     }
     mapPins.appendChild(fragment);
   };
