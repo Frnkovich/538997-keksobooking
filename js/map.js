@@ -17,6 +17,7 @@
   var mapPins = map.querySelector('.map__pins');
   var inputAddress = noticeForm.querySelector('#address');
   var mapCard = map.querySelector('.popup');
+  var closePopup;
 
   var hideAd = function () {
     mapCard.setAttribute('hidden', '');
@@ -35,9 +36,13 @@
         var pinClicked = isMapPin(evt.target.classList);
         var imageClicked = isMapPin(evt.target.parentElement .classList);
         if (pinClicked || imageClicked) {
-          window.showCard(evt, pinClicked);
+          var clickedPin = pinClicked ? evt.target : evt.target.parentElement;
+          window.showCard(clickedPin);
           mapCard = map.querySelector('.popup');
+          closePopup = map.querySelector('.popup__close');
           mapCard.removeAttribute('hidden');
+          closePopup.addEventListener('click', onClosePopup);
+          closePopup.addEventListener('keydown', onClosePopup);
         }
       }
       evt.stopPropagation();
@@ -101,13 +106,9 @@
   var renderMap = function () {
     window.pin.renderPins(window.data.getAds);
     window.data.disableFormFields(noticeFormFieldset);
-    window.card.renderAd(window.data.getAds[0]);
-    var closePopup = map.querySelector('.popup__close');
     mapPinMain.addEventListener('mousedown', onMainPin);
-    closePopup.addEventListener('click', onClosePopup);
-    closePopup.addEventListener('keydown', onClosePopup);
     document.addEventListener('keydown', onMapKeydown);
-    mapPins.addEventListener('click', onMapPin, false);
+    mapPins.addEventListener('click', onMapPin);
     mapPins.addEventListener('keydown', onMapPin);
   };
 
