@@ -9,7 +9,6 @@
   var selectRoomNumber = noticeForm.querySelector('#room_number');
   var selectGuestNumber = noticeForm.querySelector('#capacity');
   var optionsGuestNumber = selectGuestNumber.querySelectorAll('option');
-  var submitForm = noticeForm.querySelector('.form__submit');
 
   var TYPE_LIST = ['flat', 'bungalo', 'house', 'palace'];
   var PRICES_PER_NIGHT = ['1000', '0', '5000', '10000'];
@@ -59,13 +58,13 @@
 
   var onSuccess = function () {
     noticeForm.reset();
-  }
+  };
 
   var onSubmit = function (evt) {
     var fData = new FormData(noticeForm);
     window.backend.save(fData, onSuccess, window.data.errorMessage);
     evt.preventDefault();
-  }
+  };
 
   var renderForm = function () {
     window.data.disableFormFields(optionsGuestNumber);

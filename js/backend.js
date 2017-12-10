@@ -7,12 +7,12 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = 10000;
-    
+
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
         if (typeof callback === 'function') {
-         callback();
+          callback();
         }
       } else {
         onError(xhr.response);
