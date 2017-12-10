@@ -15,8 +15,8 @@
     node.style.border = '1px solid';
     node.style.textAlign = 'center';
     node.style.width = '100%';
-    node.style.borderRadius = '5px'
-    node.style.zIndex = '100'
+    node.style.borderRadius = '5px';
+    node.style.zIndex = '100';
     node.style.position = 'fixed';
     node.style.color = '#D8000C';
     node.style.background = '#FFBABA';
