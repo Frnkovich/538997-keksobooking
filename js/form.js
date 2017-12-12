@@ -52,8 +52,8 @@
 
   var onSelectRoomNumber = function (evt) {
     window.synchronizeFields(selectRoomNumber, selectGuestNumber, ROOMS_NUMBERS, GUESTS_NUMBERS, syncValues);
-    window.data.disableFormFields(optionsGuestNumber);
-    window.data.enableFormFields(getGuestsArray(evt.target.value));
+    window.utils.disableFields(optionsGuestNumber);
+    window.utils.enableFields(getGuestsArray(evt.target.value));
   };
 
   var onSuccess = function () {
@@ -62,13 +62,13 @@
 
   var onSubmit = function (evt) {
     var fData = new FormData(noticeForm);
-    window.backend.save(fData, onSuccess, window.data.errorMessage);
+    window.backend.save(fData, onSuccess, window.utils.errorMessage);
     evt.preventDefault();
   };
 
   var renderForm = function () {
-    window.data.disableFormFields(optionsGuestNumber);
-    window.data.enableFormFields(getGuestsArray(1));
+    window.utils.disableFields(optionsGuestNumber);
+    window.utils.enableFields(getGuestsArray(1));
     selectTypeLodging.addEventListener('change', onSelectTypeLodging);
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);

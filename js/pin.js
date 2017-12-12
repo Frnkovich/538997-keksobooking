@@ -28,10 +28,9 @@
   };
 
   var renderPins = function () {
-
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.ads.length - 1; i++) {
-      fragment.appendChild(renderMapPin(window.data.ads[i], i));
+    for (var i = 0; i < window.data.getAdCount(); i++) {
+      fragment.appendChild(renderMapPin(window.data.getAd(i), i));
     }
     mapPins.appendChild(fragment);
   };
@@ -39,7 +38,7 @@
   var onMainPinClick = function () {
     map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
-    window.data.enableFormFields(noticeFormFieldset);
+    window.utils.enableFields(noticeFormFieldset);
     var mapPinAll = mapPins.querySelectorAll('.map__pin');
     showMapPins(mapPinAll);
   };
