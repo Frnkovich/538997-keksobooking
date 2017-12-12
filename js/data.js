@@ -1,9 +1,8 @@
 'use strict';
 
 (function () {
-  var activePin  = null;
+  var activePin = null;
   var ads = [];
-  var adNum = 0;
 
   var setAds = function (newAds) {
     for (var i = 0; i <= newAds.length; i++) {
@@ -23,6 +22,6 @@
     setAds: setAds,
     getAdCount: getAdCount,
     getAd: getAd,
-    activePin : activePin
+    activePin: activePin
   };
 })();
