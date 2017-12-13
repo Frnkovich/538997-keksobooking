@@ -21,8 +21,8 @@
 
   var hideAd = function () {
     mapCard.setAttribute('hidden', '');
-    if (window.data.clickedElement) {
-      window.data.clickedElement.classList.remove('map__pin--active');
+    if (window.data.activePin) {
+      window.data.activePin.classList.remove('map__pin--active');
     }
   };
 
@@ -103,9 +103,9 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  window.utils.disableFields(noticeFormFieldset);
   var renderMap = function () {
-    window.pin.renderPins(window.data.getAds);
-    window.data.disableFormFields(noticeFormFieldset);
+    window.pin.renderPins(window.data.ads);
     mapPinMain.addEventListener('mousedown', onMainPin);
     document.addEventListener('keydown', onMapKeydown);
     mapPins.addEventListener('click', onMapPin);
@@ -113,6 +113,6 @@
   };
 
   window.map = {
-    renderMap: renderMap()
+    renderMap: renderMap
   };
 })();
