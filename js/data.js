@@ -16,7 +16,8 @@
 
   var getAdCount = function () {
     return ads.length - 1;
-  }
+  };
+  
   window.data = {
     setAds: setAds,
     getAds: getAds,

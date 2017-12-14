@@ -28,7 +28,7 @@
     } else {
       typePrice = 'high';
     }
-    return  (price.value === typePrice || price.value === 'any') ? true : false;
+    return (price.value === typePrice || price.value === 'any') ? true : false;
   };
 
   var isRoomsEqual = function (ad) {
@@ -44,7 +44,7 @@
   var isFeaturesEqual = function (ad) {
     var features = mapFilter.querySelector('#housing-features').querySelectorAll('input');
     var checkedFeatures = [].filter.call(features, (function (elem) {
-        return elem.checked === true;
+      return elem.checked === true;
     }));
 
     if (!(checkedFeatures.length)) {
