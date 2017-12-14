@@ -10,12 +10,12 @@
   var mapPin = mapTemplate.querySelector('.map__pin');
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
-  var arr;
   var mapFilter = map.querySelector('.map__filters');
+  var filteredArray;
 
   var isHouseEqual = function (ad) {
     var house = mapFilter.querySelector('#housing-type');
-    return  (house.value === ad.offer.type || house.value === 'any') ? true : false;
+    return (house.value === ad.offer.type || house.value === 'any') ? true : false;
   };
 
   var isPriceEqual = function (ad) {
@@ -33,45 +33,47 @@
 
   var isRoomsEqual = function (ad) {
     var rooms = mapFilter.querySelector('#housing-rooms');
-    return  (rooms.value <= ad.offer.rooms || rooms.value === 'any') ? true : false;
+    return (rooms.value <= ad.offer.rooms || rooms.value === 'any') ? true : false;
   };
 
   var isGuestsEqual = function (ad) {
     var guests = mapFilter.querySelector('#housing-guests');
-    return  (guests.value <= ad.offer.guests || guests.value === 'any') ? true : false;
+    return (guests.value <= ad.offer.guests || guests.value === 'any') ? true : false;
   };
 
   var isFeaturesEqual = function (ad) {
     var features = mapFilter.querySelector('#housing-features').querySelectorAll('input');
     var checkedFeatures = [].filter.call(features, (function (elem) {
-       return elem.checked === true;
+        return elem.checked === true;
     }));
 
     if (!(checkedFeatures.length)) {
       return true;
-    };
+    }
 
-    for (var i = 0; i < checkedFeatures.length; i++){
+    for (var i = 0; i < checkedFeatures.length; i++) {
       if (ad.offer.features.indexOf(checkedFeatures[i].value) < 0) {
         return false;
       }
-    };
+    }
 
     return true;
   };
 
   var filterAll = function (ad, i) {
-    if (i == 10) return false;
+    if (i === window.data.getAdCount()) {
+      return false;
+    }
     return (isHouseEqual(ad) && isPriceEqual(ad) && isRoomsEqual(ad) && isGuestsEqual(ad) && isFeaturesEqual(ad)) ? true : false;
   };
 
-  var filterArr = function () {
+  var filterArray = function () {
     var arr = window.data.getAds();
     return arr.filter(filterAll);
   };
 
   var getAd = function (num) {
-    return arr[num];
+    return filteredArray[num];
   };
 
   var renderMapPin = function (pin, id) {
@@ -92,15 +94,14 @@
   };
 
   var renderPins = function () {
-    var mapPins = map.querySelector('.map__pins');
-    var mapPin = mapPins.querySelectorAll('.map__pin');
-    for (var i = 1; i < mapPin.length; i++) {
-      mapPins.removeChild(mapPin[i]);
+    var mapPinAll = mapPins.querySelectorAll('.map__pin');
+    for (var i = 1; i < mapPinAll.length; i++) {
+      mapPins.removeChild(mapPinAll[i]);
     }
-    arr = filterArr();
+    filteredArray = filterArray();
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < Math.min(arr.length, MAX_PIN_NUMBER); i++) {
-      fragment.appendChild(renderMapPin(arr[i], i));
+    for (i = 0; i < Math.min(filteredArray.length, MAX_PIN_NUMBER); i++) {
+      fragment.appendChild(renderMapPin(filteredArray[i], i));
     }
     mapPins.appendChild(fragment);
   };

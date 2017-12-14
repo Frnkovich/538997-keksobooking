@@ -14,9 +14,13 @@
     return ads;
   };
 
+  var getAdCount = function () {
+    return ads.length - 1;
+  }
   window.data = {
     setAds: setAds,
     getAds: getAds,
+    getAdCount: getAdCount,
     activePin: activePin
   };
 })();
