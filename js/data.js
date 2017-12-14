@@ -10,18 +10,13 @@
     }
   };
 
-  var getAd = function (num) {
-    return ads[num];
-  };
-
-  var getAdCount = function () {
-    return ads.length - 1;
+  var getAds = function () {
+    return ads;
   };
 
   window.data = {
     setAds: setAds,
-    getAdCount: getAdCount,
-    getAd: getAd,
+    getAds: getAds,
     activePin: activePin
   };
 })();

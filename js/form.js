@@ -30,39 +30,27 @@
     return guestOptions;
   };
 
-  var syncValues = function (field, changeValue) {
-    field.value = changeValue;
-  };
-
-  var syncValueWithMin = function (field, changeValue) {
-    field.min = changeValue;
-  };
-
   var onSelectTypeLodging = function () {
-    window.synchronizeFields(selectTypeLodging, inputPrice, TYPE_LIST, PRICES_PER_NIGHT, syncValueWithMin);
+    window.synchronizeFields(selectTypeLodging, inputPrice, TYPE_LIST, PRICES_PER_NIGHT, window.utils.syncValueToAttribute, 'min');
   };
 
   var onSelectTimeIn = function () {
-    window.synchronizeFields(selectTimeIn, selectTimeOut, TIME_LIST, TIME_LIST, syncValues);
+    window.synchronizeFields(selectTimeIn, selectTimeOut, TIME_LIST, TIME_LIST, window.utils.syncValues);
   };
 
   var onSelectTimeOut = function () {
-    window.synchronizeFields(selectTimeOut, selectTimeIn, TIME_LIST, TIME_LIST, syncValues);
+    window.synchronizeFields(selectTimeOut, selectTimeIn, TIME_LIST, TIME_LIST, window.utils.syncValues);
   };
 
   var onSelectRoomNumber = function (evt) {
-    window.synchronizeFields(selectRoomNumber, selectGuestNumber, ROOMS_NUMBERS, GUESTS_NUMBERS, syncValues);
+    window.synchronizeFields(selectRoomNumber, selectGuestNumber, ROOMS_NUMBERS, GUESTS_NUMBERS, window.utils.syncValues);
     window.utils.disableFields(optionsGuestNumber);
     window.utils.enableFields(getGuestsArray(evt.target.value));
   };
 
-  var onSuccess = function () {
-    noticeForm.reset();
-  };
-
   var onSubmit = function (evt) {
     var fData = new FormData(noticeForm);
-    window.backend.save(fData, onSuccess, window.utils.errorMessage);
+    window.backend.save(fData, noticeForm.reset, window.utils.errorMessage);
     evt.preventDefault();
   };
 

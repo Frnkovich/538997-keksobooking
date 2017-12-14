@@ -17,6 +17,7 @@
   var mapPins = map.querySelector('.map__pins');
   var inputAddress = noticeForm.querySelector('#address');
   var mapCard = map.querySelector('.popup');
+  var mapFilter = map.querySelector('.map__filters');
   var closePopup;
 
   var hideAd = function () {
@@ -43,6 +44,7 @@
           mapCard.removeAttribute('hidden');
           closePopup.addEventListener('click', onClosePopup);
           closePopup.addEventListener('keydown', onClosePopup);
+          document.addEventListener('keydown', onMapKeydown);
         }
       }
       evt.stopPropagation();
@@ -52,12 +54,18 @@
   var onClosePopup = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       hideAd();
+      closePopup.removeEventListener('click', onClosePopup);
+      closePopup.removeEventListener('keydown', onClosePopup);
+      document.removeEventListener('keydown', onMapKeydown);
     }
   };
 
   var onMapKeydown = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       hideAd();
+      closePopup.removeEventListener('click', onClosePopup);
+      closePopup.removeEventListener('keydown', onClosePopup);
+      document.removeEventListener('keydown', onMapKeydown);
     }
   };
 
@@ -103,13 +111,23 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  var onFilterChange = function () {
+    window.pin.renderPins();
+    var mapPinAll = document.querySelectorAll('.map__pin');
+    window.pin.showMapPins(mapPinAll);
+    if (mapCard) {
+      hideAd();
+    }
+  };
+
   window.utils.disableFields(noticeFormFieldset);
   var renderMap = function () {
-    window.pin.renderPins(window.data.ads);
+    window.pin.renderPins();
+    var debounceFilter = window.utils.debounce(onFilterChange, 500);
     mapPinMain.addEventListener('mousedown', onMainPin);
-    document.addEventListener('keydown', onMapKeydown);
     mapPins.addEventListener('click', onMapPin);
     mapPins.addEventListener('keydown', onMapPin);
+    mapFilter.addEventListener('change', debounceFilter);
   };
 
   window.map = {
