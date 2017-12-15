@@ -21,9 +21,11 @@
   var closePopup;
 
   var hideAd = function () {
-    mapCard.setAttribute('hidden', '');
-    if (window.data.activePin) {
-      window.data.activePin.classList.remove('map__pin--active');
+    if (mapCard) {
+      mapCard.setAttribute('hidden', '');
+      if (window.data.activePin) {
+        window.data.activePin.classList.remove('map__pin--active');
+      }
     }
   };
 
@@ -112,17 +114,14 @@
   };
 
   var onFilterChange = function () {
+    hideAd();
+    window.data.filterArray();
     window.pin.renderPins();
-    var mapPinAll = document.querySelectorAll('.map__pin');
-    window.pin.showMapPins(mapPinAll);
-    if (mapCard) {
-      hideAd();
-    }
   };
 
   window.utils.disableFields(noticeFormFieldset);
   var renderMap = function () {
-    window.pin.renderPins();
+    window.data.filterArray();
     var debounceFilter = window.utils.debounce(onFilterChange, 500);
     mapPinMain.addEventListener('mousedown', onMainPin);
     mapPins.addEventListener('click', onMapPin);

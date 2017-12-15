@@ -7,6 +7,6 @@
     }
     window.data.activePin = clickedPin;
     window.data.activePin.classList.add('map__pin--active');
-    window.card.renderAd(window.pin.getAd(window.data.activePin.id));
+    window.card.renderAd(window.data.getAd(window.data.activePin.id));
   };
 })();
