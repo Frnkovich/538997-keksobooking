@@ -11,15 +11,18 @@
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
   var mapFilter = map.querySelector('.map__filters');
+  var house = mapFilter.querySelector('#housing-type');
+  var price = mapFilter.querySelector('#housing-price');
+  var rooms = mapFilter.querySelector('#housing-rooms');
+  var guests = mapFilter.querySelector('#housing-guests');
+  var features = mapFilter.querySelector('#housing-features').querySelectorAll('input');
   var filteredArray;
 
   var isHouseEqual = function (ad) {
-    var house = mapFilter.querySelector('#housing-type');
-    return (house.value === ad.offer.type || house.value === 'any') ? true : false;
+    return (house.value === ad.offer.type || house.value === 'any');
   };
 
   var isPriceEqual = function (ad) {
-    var price = mapFilter.querySelector('#housing-price');
     var typePrice;
     if (ad.offer.price < 10000) {
       typePrice = 'low';
@@ -28,35 +31,31 @@
     } else {
       typePrice = 'high';
     }
-    return (price.value === typePrice || price.value === 'any') ? true : false;
+    return (price.value === typePrice || price.value === 'any');
   };
 
   var isRoomsEqual = function (ad) {
-    var rooms = mapFilter.querySelector('#housing-rooms');
-    return (rooms.value <= ad.offer.rooms || rooms.value === 'any') ? true : false;
+    return (rooms.value <= ad.offer.rooms || rooms.value === 'any');
   };
 
   var isGuestsEqual = function (ad) {
-    var guests = mapFilter.querySelector('#housing-guests');
-    return (guests.value <= ad.offer.guests || guests.value === 'any') ? true : false;
+    return (guests.value <= ad.offer.guests || guests.value === 'any');
   };
 
   var isFeaturesEqual = function (ad) {
-    var features = mapFilter.querySelector('#housing-features').querySelectorAll('input');
-    var checkedFeatures = [].filter.call(features, (function (elem) {
+    var checkedFeatures = Array.from(features).filter(function (elem) {
       return elem.checked === true;
-    }));
+    });
 
     if (!(checkedFeatures.length)) {
       return true;
     }
 
     for (var i = 0; i < checkedFeatures.length; i++) {
-      if (ad.offer.features.indexOf(checkedFeatures[i].value) < 0) {
+      if (!(ad.offer.features.includes(checkedFeatures[i].value))) {
         return false;
       }
     }
-
     return true;
   };
 
@@ -64,7 +63,7 @@
     if (i === window.data.getAdCount()) {
       return false;
     }
-    return (isHouseEqual(ad) && isPriceEqual(ad) && isRoomsEqual(ad) && isGuestsEqual(ad) && isFeaturesEqual(ad)) ? true : false;
+    return (isHouseEqual(ad) && isPriceEqual(ad) && isRoomsEqual(ad) && isGuestsEqual(ad) && isFeaturesEqual(ad));
   };
 
   var filterArray = function () {
