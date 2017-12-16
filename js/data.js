@@ -3,7 +3,7 @@
 (function () {
   var activePin = null;
   var ads = [];
-  var arrayAds = [];
+  var filteredAds = [];
   var MAX_PIN_COUNT = 5;
   var MIN_PIN_COUNT = 0;
   var map = document.querySelector('.map');
@@ -21,7 +21,7 @@
   };
 
   var isHouseEqual = function (ad) {
-    return (house.value === ad.offer.type || house.value === 'any');
+    return house.value === ad.offer.type || house.value === 'any';
   };
 
   var isPriceEqual = function (ad) {
@@ -33,15 +33,15 @@
     } else {
       typePrice = 'high';
     }
-    return (price.value === typePrice || price.value === 'any');
+    return price.value === typePrice || price.value === 'any';
   };
 
   var isRoomsEqual = function (ad) {
-    return (rooms.value === ad.offer.rooms.toString() || rooms.value === 'any');
+    return rooms.value === ad.offer.rooms.toString() || rooms.value === 'any';
   };
 
   var isGuestsEqual = function (ad) {
-    return (guests.value === ad.offer.guests.toString() || guests.value === 'any');
+    return guests.value === ad.offer.guests.toString() || guests.value === 'any';
   };
 
   var isFeaturesEqual = function (ad) {
@@ -66,16 +66,15 @@
   };
 
   var filterArray = function () {
-    arrayAds = ads.filter(filterElement).slice(MIN_PIN_COUNT, MAX_PIN_COUNT);
+    filteredAds = ads.filter(filterElement).slice(MIN_PIN_COUNT, MAX_PIN_COUNT);
   };
 
   var getAd = function (num) {
-    return arrayAds[num];
+    return filteredAds[num];
   };
 
   var getAdsCount = function () {
-    var adsLength = arrayAds.length;
-    return adsLength;
+    return  filteredAds.length;
   };
 
   window.data = {
