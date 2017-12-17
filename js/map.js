@@ -17,12 +17,15 @@
   var mapPins = map.querySelector('.map__pins');
   var inputAddress = noticeForm.querySelector('#address');
   var mapCard = map.querySelector('.popup');
+  var mapFilter = map.querySelector('.map__filters');
   var closePopup;
 
   var hideAd = function () {
-    mapCard.setAttribute('hidden', '');
-    if (window.data.activePin) {
-      window.data.activePin.classList.remove('map__pin--active');
+    if (mapCard) {
+      mapCard.setAttribute('hidden', '');
+      if (window.data.activePin) {
+        window.data.activePin.classList.remove('map__pin--active');
+      }
     }
   };
 
@@ -43,6 +46,7 @@
           mapCard.removeAttribute('hidden');
           closePopup.addEventListener('click', onClosePopup);
           closePopup.addEventListener('keydown', onClosePopup);
+          document.addEventListener('keydown', onMapKeydown);
         }
       }
       evt.stopPropagation();
@@ -52,12 +56,18 @@
   var onClosePopup = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       hideAd();
+      closePopup.removeEventListener('click', onClosePopup);
+      closePopup.removeEventListener('keydown', onClosePopup);
+      document.removeEventListener('keydown', onMapKeydown);
     }
   };
 
   var onMapKeydown = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       hideAd();
+      closePopup.removeEventListener('click', onClosePopup);
+      closePopup.removeEventListener('keydown', onClosePopup);
+      document.removeEventListener('keydown', onMapKeydown);
     }
   };
 
@@ -103,13 +113,20 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  var onFilterChange = function () {
+    hideAd();
+    window.data.filterArray();
+    window.pin.renderPins();
+  };
+
   window.utils.disableFields(noticeFormFieldset);
   var renderMap = function () {
-    window.pin.renderPins(window.data.ads);
+    window.data.filterArray();
+    var debounceFilter = window.utils.debounce(onFilterChange, 500);
     mapPinMain.addEventListener('mousedown', onMainPin);
-    document.addEventListener('keydown', onMapKeydown);
     mapPins.addEventListener('click', onMapPin);
     mapPins.addEventListener('keydown', onMapPin);
+    mapFilter.addEventListener('change', debounceFilter);
   };
 
   window.map = {

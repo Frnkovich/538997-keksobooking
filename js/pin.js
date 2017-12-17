@@ -15,32 +15,32 @@
     var locationY = pin.location.y - MAP_PIN_HEIGHT;
     var mapElement = mapPin.cloneNode(true);
     mapElement.setAttribute('style', 'left:' + locationX + 'px; top:' + locationY + 'px;');
-    mapElement.setAttribute('hidden', '');
     mapElement.children[0].setAttribute('src', pin.author.avatar);
     mapElement.setAttribute('id', id);
     return mapElement;
   };
 
-  var showMapPins = function (mapPinArray) {
-    for (var i = 0; i < mapPinArray.length; i++) {
-      mapPinArray[i].removeAttribute('hidden');
+  var removeMapPins = function () {
+    var mapPinAll = mapPins.querySelectorAll('.map__pin');
+    for (var i = 1; i < mapPinAll.length; i++) {
+      mapPins.removeChild(mapPinAll[i]);
     }
   };
 
   var renderPins = function () {
+    removeMapPins();
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.getAdCount(); i++) {
+    for (var i = 0; i < window.data.getAdsCount(); i++) {
       fragment.appendChild(renderMapPin(window.data.getAd(i), i));
     }
     mapPins.appendChild(fragment);
   };
 
   var onMainPinClick = function () {
+    renderPins();
     map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
     window.utils.enableFields(noticeFormFieldset);
-    var mapPinAll = mapPins.querySelectorAll('.map__pin');
-    showMapPins(mapPinAll);
   };
 
   window.pin = {
