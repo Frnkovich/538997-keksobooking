@@ -11,14 +11,11 @@
   var MAX_Y = 650;
   var DELAY = 500;
 
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
-  var noticeForm = document.querySelector('.notice__form');
-  var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
-  var mapPins = map.querySelector('.map__pins');
-  var inputAddress = noticeForm.querySelector('#address');
-  var mapCard = map.querySelector('.popup');
-  var mapFilter = map.querySelector('.map__filters');
+  var mapPinMain = window.selectors.map.querySelector('.map__pin--main');
+  var noticeFormFieldsets = window.selectors.noticeForm.querySelectorAll('fieldset');
+  var inputAddress = window.selectors.noticeForm.querySelector('#address');
+  var mapCard = window.selectors.map.querySelector('.popup');
+  var mapFilter = window.selectors.map.querySelector('.map__filters');
   var closePopup;
 
   var hideAd = function () {
@@ -42,8 +39,8 @@
         if (pinClicked || imageClicked) {
           var clickedPin = pinClicked ? evt.target : evt.target.parentElement;
           window.showCard(clickedPin);
-          mapCard = map.querySelector('.popup');
-          closePopup = map.querySelector('.popup__close');
+          mapCard = window.selectors.map.querySelector('.popup');
+          closePopup = window.selectors.map.querySelector('.popup__close');
           mapCard.removeAttribute('hidden');
           closePopup.addEventListener('click', onClosePopup);
           closePopup.addEventListener('keydown', onClosePopup);
@@ -127,12 +124,12 @@
     window.pin.render();
   };
 
-  window.utils.disableFields(noticeFormFieldset);
+  window.utils.disableFields(noticeFormFieldsets);
   var renderMap = function () {
     window.data.filterArray();
     mapPinMain.addEventListener('mousedown', onMainPin);
-    mapPins.addEventListener('click', onMapPin);
-    mapPins.addEventListener('keydown', onMapPin);
+    window.selectors.mapPins.addEventListener('click', onMapPin);
+    window.selectors.mapPins.addEventListener('keydown', onMapPin);
     mapFilter.addEventListener('change', function () {
       window.utils.debounce(onFilterChange, DELAY);
     });

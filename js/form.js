@@ -9,23 +9,22 @@
   var MAX_ROOMS_NUMBER = 100;
   var MIN_GUESTS_NUMBER = '0';
 
-  var noticeForm = document.querySelector('.notice__form');
-  var selectTypeLodging = noticeForm.querySelector('#type');
-  var inputPrice = noticeForm.querySelector('#price');
-  var selectTimeIn = noticeForm.querySelector('#timein');
-  var selectTimeOut = noticeForm.querySelector('#timeout');
-  var selectRoomNumber = noticeForm.querySelector('#room_number');
-  var selectGuestNumber = noticeForm.querySelector('#capacity');
-  var optionsGuestNumber = selectGuestNumber.querySelectorAll('option');
+  var selectTypeLodging = window.selectors.noticeForm.querySelector('#type');
+  var inputPrice = window.selectors.noticeForm.querySelector('#price');
+  var selectTimeIn = window.selectors.noticeForm.querySelector('#timein');
+  var selectTimeOut = window.selectors.noticeForm.querySelector('#timeout');
+  var selectRoomNumber = window.selectors.noticeForm.querySelector('#room_number');
+  var selectGuestNumber = window.selectors.noticeForm.querySelector('#capacity');
+  var optionsGuestNumbers = selectGuestNumber.querySelectorAll('option');
 
   var getGuestsArray = function (num) {
     var guestOptions = [];
     if (num < MAX_ROOMS_NUMBER) {
-      guestOptions = Array.from(optionsGuestNumber).filter(function (elem) {
+      guestOptions = Array.from(optionsGuestNumbers).filter(function (elem) {
         return elem.value <= num && elem.value !== MIN_GUESTS_NUMBER;
       });
     } else {
-      guestOptions.push(optionsGuestNumber[3]);
+      guestOptions.push(optionsGuestNumbers[3]);
     }
     return guestOptions;
   };
@@ -44,24 +43,24 @@
 
   var onSelectRoomNumber = function (evt) {
     window.synchronizeFields(selectRoomNumber, selectGuestNumber, ROOMS_NUMBERS, GUESTS_NUMBERS, window.utils.syncValues);
-    window.utils.disableFields(optionsGuestNumber);
+    window.utils.disableFields(optionsGuestNumbers);
     window.utils.enableFields(getGuestsArray(evt.target.value));
   };
 
   var onSubmit = function (evt) {
-    var fData = new FormData(noticeForm);
-    window.backend.save(fData, noticeForm.reset, window.utils.errorMessage);
+    var fData = new FormData(window.selectors.noticeForm);
+    window.backend.save(fData, window.selectors.noticeForm.reset, window.utils.errorMessage);
     evt.preventDefault();
   };
 
   var renderForm = function () {
-    window.utils.disableFields(optionsGuestNumber);
+    window.utils.disableFields(optionsGuestNumbers);
     window.utils.enableFields(getGuestsArray(1));
     selectTypeLodging.addEventListener('change', onSelectTypeLodging);
     selectTimeIn.addEventListener('change', onSelectTimeIn);
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
-    noticeForm.addEventListener('submit', onSubmit);
+    window.selectors.noticeForm.addEventListener('submit', onSubmit);
   };
 
   window.form = {

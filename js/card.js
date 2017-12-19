@@ -4,12 +4,10 @@
   var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
   var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
 
-  var map = document.querySelector('.map');
-  var mapTemplate = document.querySelector('template').content;
-  var mapPopup = mapTemplate.querySelector('.popup');
+  var mapPopup = window.selectors.mapTemplate.querySelector('.popup');
   var mapCardElement = mapPopup.cloneNode(true);
   var mapTextElements = mapCardElement.querySelectorAll('p');
-  var ulElement = mapCardElement.querySelector('.popup__features');
+  var cardFeatures = mapCardElement.querySelector('.popup__features');
 
   var getRoomWord = function (roomsNumber) {
     var oneRoom = 1;
@@ -33,18 +31,18 @@
   };
 
   var renderFeaturesList = function (features) {
-    var liElement = ulElement.querySelectorAll('.feature');
-    for (var i = 0; i < liElement.length; i++) {
-      ulElement.removeChild(liElement[i]);
-    }
+    var liElements = cardFeatures.querySelectorAll('.feature');
+    liElements.forEach(function (liElement) {
+      cardFeatures.removeChild(liElement);
+    })
     var liFragment = document.createDocumentFragment();
     var newElement;
-    for (i = 0; i <= features.length - 1; i++) {
+    features.forEach(function (feature) {
       newElement = document.createElement('li');
-      newElement.className = 'feature feature--' + features[i];
+      newElement.className = 'feature feature--' + feature;
       liFragment.appendChild(newElement);
-    }
-    ulElement.appendChild(liFragment);
+    })
+    cardFeatures.appendChild(liFragment);
   };
 
   var renderAd = function (ad) {
@@ -58,7 +56,7 @@
     renderFeaturesList(ad.offer.features);
     mapTextElements[4].textContent = ad.offer.description;
     mapCardElement.setAttribute('hidden', '');
-    map.insertBefore(mapCardElement, map.querySelector('.map__filters-container'));
+    window.selectors.map.insertBefore(mapCardElement, window.selectors.map.querySelector('.map__filters-container'));
   };
 
   window.card = {

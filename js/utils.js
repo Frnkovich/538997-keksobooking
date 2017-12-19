@@ -19,15 +19,15 @@
   };
 
   var disableFields = function (fieldArray) {
-    for (var i = 0; i < fieldArray.length; i++) {
-      fieldArray[i].setAttribute('disabled', true);
-    }
+    fieldArray.forEach(function (field) {
+      field.setAttribute('disabled', true);
+    })
   };
 
   var enableFields = function (fieldArray) {
-    for (var i = 0; i < fieldArray.length; i++) {
-      fieldArray[i].removeAttribute('disabled');
-    }
+    fieldArray.forEach(function (field) {
+      field.removeAttribute('disabled', true);
+    })
   };
 
   var syncValues = function (field, changeValue) {
