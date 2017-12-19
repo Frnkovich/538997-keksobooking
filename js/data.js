@@ -1,11 +1,12 @@
 'use strict';
 
 (function () {
-  var activePin = null;
-  var ads = [];
-  var filteredAds = [];
   var MAX_PIN_COUNT = 5;
   var MIN_PIN_COUNT = 0;
+  var ANY_VALUE = 'any';
+  var LOW_PRICE = 10000;
+  var HIGH_PRICE = 50000;
+  
   var map = document.querySelector('.map');
   var mapFilter = map.querySelector('.map__filters');
   var house = mapFilter.querySelector('#housing-type');
@@ -13,6 +14,9 @@
   var rooms = mapFilter.querySelector('#housing-rooms');
   var guests = mapFilter.querySelector('#housing-guests');
   var features = mapFilter.querySelector('#housing-features').querySelectorAll('input');
+  var activePin = null;
+  var ads = [];
+  var filteredAds = [];
 
   var setAds = function (newAds) {
     for (var i = 0; i < newAds.length; i++) {
@@ -21,27 +25,27 @@
   };
 
   var isHouseEqual = function (ad) {
-    return house.value === ad.offer.type || house.value === 'any';
+    return house.value === ad.offer.type || house.value === ANY_VALUE;
   };
 
   var isPriceEqual = function (ad) {
     var typePrice;
-    if (ad.offer.price < 10000) {
+    if (ad.offer.price < LOW_PRICE) {
       typePrice = 'low';
-    } else if (ad.offer.price >= 10000 && ad.offer.price < 50000) {
+    } else if (ad.offer.price >= LOW_PRICE && ad.offer.price < HIGH_PRICE) {
       typePrice = 'middle';
     } else {
       typePrice = 'high';
     }
-    return price.value === typePrice || price.value === 'any';
+    return price.value === typePrice || price.value === ANY_VALUE;
   };
 
   var isRoomsEqual = function (ad) {
-    return rooms.value === ad.offer.rooms.toString() || rooms.value === 'any';
+    return rooms.value === ad.offer.rooms.toString() || rooms.value === ANY_VALUE;
   };
 
   var isGuestsEqual = function (ad) {
-    return guests.value === ad.offer.guests.toString() || guests.value === 'any';
+    return guests.value === ad.offer.guests.toString() || guests.value === ANY_VALUE;
   };
 
   var isFeaturesEqual = function (ad) {
@@ -74,7 +78,7 @@
   };
 
   var getAdsCount = function () {
-    return  filteredAds.length;
+    return filteredAds.length;
   };
 
   window.data = {

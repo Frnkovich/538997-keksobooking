@@ -3,12 +3,14 @@
 (function () {
   var MAP_PIN_WIDTH = 46;
   var MAP_PIN_HEIGHT = 64;
+
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var mapTemplate = document.querySelector('template').content;
   var mapPin = mapTemplate.querySelector('.map__pin');
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
+  var inputAddress = noticeForm.querySelector('#address');
 
   var renderMapPin = function (pin, id) {
     var locationX = pin.location.x - MAP_PIN_WIDTH / 2;
@@ -36,7 +38,7 @@
     mapPins.appendChild(fragment);
   };
 
-  var onMainPinClick = function () {
+  var activateAll = function () {
     renderPins();
     map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
@@ -44,7 +46,7 @@
   };
 
   window.pin = {
-    renderPins: renderPins,
-    onMainPinClick: onMainPinClick
+    render: renderPins,
+    activateAll: activateAll
   };
 })();

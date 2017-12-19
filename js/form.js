@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+  var TYPE_LIST = ['flat', 'bungalo', 'house', 'palace'];
+  var PRICES_PER_NIGHT = ['1000', '0', '5000', '10000'];
+  var TIME_LIST = ['12:00', '13:00', '14:00'];
+  var ROOMS_NUMBERS = ['1', '2', '3', '100'];
+  var GUESTS_NUMBERS = ['1', '2', '3', '0'];
+  var MAX_ROOMS_NUMBER = 100;
+  var MIN_GUESTS_NUMBER = '0';
+
   var noticeForm = document.querySelector('.notice__form');
   var selectTypeLodging = noticeForm.querySelector('#type');
   var inputPrice = noticeForm.querySelector('#price');
@@ -10,20 +18,12 @@
   var selectGuestNumber = noticeForm.querySelector('#capacity');
   var optionsGuestNumber = selectGuestNumber.querySelectorAll('option');
 
-  var TYPE_LIST = ['flat', 'bungalo', 'house', 'palace'];
-  var PRICES_PER_NIGHT = ['1000', '0', '5000', '10000'];
-  var TIME_LIST = ['12:00', '13:00', '14:00'];
-  var ROOMS_NUMBERS = ['1', '2', '3', '100'];
-  var GUESTS_NUMBERS = ['1', '2', '3', '0'];
-
   var getGuestsArray = function (num) {
     var guestOptions = [];
-    if (num < 100) {
-      for (var i = 0; i < optionsGuestNumber.length - 1; i++) {
-        if (optionsGuestNumber[i].value <= num) {
-          guestOptions.push(optionsGuestNumber[i]);
-        }
-      }
+    if (num < MAX_ROOMS_NUMBER) {
+      guestOptions = Array.from(optionsGuestNumber).filter(function (elem) {
+        return elem.value <= num && elem.value !== MIN_GUESTS_NUMBER;
+      });
     } else {
       guestOptions.push(optionsGuestNumber[3]);
     }
@@ -65,6 +65,6 @@
   };
 
   window.form = {
-    renderForm: renderForm()
+    render: renderForm()
   };
 })();

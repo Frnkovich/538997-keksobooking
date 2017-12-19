@@ -1,14 +1,15 @@
 'use strict';
 
 (function () {
+  var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
+  var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
+  
   var map = document.querySelector('.map');
   var mapTemplate = document.querySelector('template').content;
   var mapPopup = mapTemplate.querySelector('.popup');
   var mapCardElement = mapPopup.cloneNode(true);
   var mapTextElements = mapCardElement.querySelectorAll('p');
-
-  var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
-  var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
+  var ulElement = mapCardElement.querySelector('.popup__features');
 
   var getRoomWord = function (roomsNumber) {
     var oneRoom = 1;
@@ -32,7 +33,6 @@
   };
 
   var renderFeaturesList = function (features) {
-    var ulElement = mapCardElement.querySelector('.popup__features');
     var liElement = ulElement.querySelectorAll('.feature');
     for (var i = 0; i < liElement.length; i++) {
       ulElement.removeChild(liElement[i]);
