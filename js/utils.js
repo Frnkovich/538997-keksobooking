@@ -19,13 +19,13 @@
   };
 
   var disableFields = function (fieldArray) {
-    fieldArray.forEach(function (field) {
+    [].forEach.call(fieldArray, function(field){
       field.setAttribute('disabled', true);
     });
   };
 
   var enableFields = function (fieldArray) {
-    fieldArray.forEach(function (field) {
+    [].forEach.call(fieldArray, function(field){
       field.removeAttribute('disabled', true);
     });
   };

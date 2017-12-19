@@ -32,12 +32,12 @@
 
   var renderFeaturesList = function (features) {
     var liElements = cardFeatures.querySelectorAll('.feature');
-    liElements.forEach(function (liElement) {
+    [].forEach.call(liElements, function(liElement){
       cardFeatures.removeChild(liElement);
     });
     var liFragment = document.createDocumentFragment();
     var newElement;
-    features.forEach(function (feature) {
+    [].forEach.call(features, function(feature){
       newElement = document.createElement('li');
       newElement.className = 'feature feature--' + feature;
       liFragment.appendChild(newElement);
