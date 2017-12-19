@@ -48,7 +48,7 @@
   };
 
   var isFeaturesEqual = function (ad) {
-    var checkedFeatures = [].filter.call(features, function(elem){
+    var checkedFeatures = [].filter.call(features, function (elem) {
       return elem.checked === true;
     });
 

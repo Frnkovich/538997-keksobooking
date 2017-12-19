@@ -20,7 +20,7 @@
   var getGuestsArray = function (num) {
     var guestOptions = [];
     if (num < MAX_ROOMS_NUMBER) {
-      guestOptions = [].filter.call(optionsGuestNumbers, function(elem){
+      guestOptions = [].filter.call(optionsGuestNumbers, function (elem) {
         return elem.value <= num && elem.value !== MIN_GUESTS_NUMBER;
       });
     } else {
