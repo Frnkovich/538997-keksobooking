@@ -10,7 +10,6 @@
   var mapPin = mapTemplate.querySelector('.map__pin');
   var noticeForm = document.querySelector('.notice__form');
   var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
-  var inputAddress = noticeForm.querySelector('#address');
 
   var renderMapPin = function (pin, id) {
     var locationX = pin.location.x - MAP_PIN_WIDTH / 2;

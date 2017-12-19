@@ -6,7 +6,7 @@
   var ANY_VALUE = 'any';
   var LOW_PRICE = 10000;
   var HIGH_PRICE = 50000;
-  
+
   var map = document.querySelector('.map');
   var mapFilter = map.querySelector('.map__filters');
   var house = mapFilter.querySelector('#housing-type');

@@ -3,7 +3,7 @@
 (function () {
   var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
   var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
-  
+
   var map = document.querySelector('.map');
   var mapTemplate = document.querySelector('template').content;
   var mapPopup = mapTemplate.querySelector('.popup');
