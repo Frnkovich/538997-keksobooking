@@ -84,7 +84,7 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (evt) {
+    var onMouseMove = function (moveEvt) {
       evt.preventDefault();
 
       var shift = {
@@ -93,8 +93,8 @@
       };
 
       startCoords = {
-        x: evt.clientX,
-        y: evt.clientY
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
       };
 
       var newY = mapPinMain.offsetTop - shift.y;
@@ -111,8 +111,8 @@
       inputAddress.value = 'x: ' + inputX + ', y: ' + inputY;
     };
 
-    var onMouseUp = function (evt) {
-      evt.preventDefault();
+    var onMouseUp = function (mouseUpEvt) {
+      mouseUpEvt.preventDefault();
       fillAddresField();
       window.pin.activateAll();
       document.removeEventListener('mousemove', onMouseMove);

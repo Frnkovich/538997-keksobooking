@@ -3,7 +3,7 @@
 (function () {
   var timeOut;
 
-  var removeNode = function () {
+  var removeErrorMessage = function () {
     var node = document.querySelector('.error');
     document.body.removeChild(node);
   };
@@ -14,7 +14,7 @@
     node.style.textAlign = 'center';
     node.style.width = '50%';
     node.style.padding = '20';
-    node.style.opacity = '0.8'
+    node.style.opacity = '0.8';
     node.style.zIndex = '100';
     node.style.position = 'fixed';
     node.style.color = '#D8000C';
@@ -23,7 +23,7 @@
     node.textContent = textError;
     node.setAttribute('class', 'error');
     document.body.insertAdjacentElement('afterbegin', node);
-    setTimeout(removeNode, 5000);
+    setTimeout(removeErrorMessage, 5000);
   };
 
   var disableFields = function (fields) {

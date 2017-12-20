@@ -51,7 +51,7 @@
   var onLoad = function () {
     window.selectors.noticeForm.reset();
     window.map.fillAddresField();
-  }
+  };
 
   var onSubmit = function (evt) {
     var fData = new FormData(window.selectors.noticeForm);
