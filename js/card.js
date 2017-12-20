@@ -8,7 +8,6 @@
   var mapCardElement = mapPopup.cloneNode(true);
   var mapTextElements = mapCardElement.querySelectorAll('p');
   var cardFeatures = mapCardElement.querySelector('.popup__features');
-  var cardPictures = mapCardElement.querySelector('.popup__pictures');
 
   var getRoomWord = function (roomsNumber) {
     var oneRoom = 1;
