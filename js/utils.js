@@ -45,7 +45,7 @@
     timeOut = setTimeout(func, wait);
   };
   var removeAllChildNodes = function (parent) {
-    parent.textContent = "";
+    parent.textContent = '';
   };
 
   var removeChildNodes = function (parent, childs) {
