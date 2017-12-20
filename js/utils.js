@@ -18,14 +18,14 @@
     document.body.insertAdjacentElement('beforeBegin', node);
   };
 
-  var disableFields = function (fieldArray) {
-    [].forEach.call(fieldArray, function (field) {
+  var disableFields = function (fields) {
+    [].forEach.call(fields, function (field) {
       field.setAttribute('disabled', true);
     });
   };
 
-  var enableFields = function (fieldArray) {
-    [].forEach.call(fieldArray, function (field) {
+  var enableFields = function (fields) {
+    [].forEach.call(fields, function (field) {
       field.removeAttribute('disabled', true);
     });
   };
@@ -38,12 +38,13 @@
     field.setAttribute(attribute, changeValue);
   };
 
-  var debounce = function (func, wait) {
+  var debounce = function (callback, wait) {
     if (timeOut) {
       clearTimeout(timeOut);
     }
-    timeOut = setTimeout(func, wait);
+    timeOut = setTimeout(callback, wait);
   };
+
   var removeAllChildNodes = function (parent) {
     parent.textContent = '';
   };
@@ -58,8 +59,8 @@
   };
 
   var getCheckedChildNodes = function (parent) {
-    return [].filter.call(parent, function (elem) {
-      return elem.checked;
+    return [].filter.call(parent, function (element) {
+      return element.checked;
     });
   };
 
