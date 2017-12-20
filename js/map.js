@@ -136,6 +136,6 @@
   };
 
   window.map = {
-    initialize: initializationMap
+    initialize: initializeMap
   };
 })();
