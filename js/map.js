@@ -30,11 +30,17 @@
     return classList.contains('map__pin') && !classList.contains('map__pin--main');
   };
 
+  var removePopupHandler = function () {
+    closePopup.removeEventListener('click', onClosePopup);
+    closePopup.removeEventListener('keydown', onClosePopup);
+    document.removeEventListener('keydown', onMapKeydown);
+  };
+
   var onMapPin = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       if (evt.target !== evt.currentTarget) {
         var pinClicked = isMapPin(evt.target.classList);
-        var imageClicked = isMapPin(evt.target.parentElement .classList);
+        var imageClicked = isMapPin(evt.target.parentElement.classList);
         if (pinClicked || imageClicked) {
           var clickedPin = pinClicked ? evt.target : evt.target.parentElement;
           window.showCard(clickedPin);
@@ -53,18 +59,14 @@
   var onClosePopup = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       hideAd();
-      closePopup.removeEventListener('click', onClosePopup);
-      closePopup.removeEventListener('keydown', onClosePopup);
-      document.removeEventListener('keydown', onMapKeydown);
+      removePopupHandler();
     }
   };
 
   var onMapKeydown = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       hideAd();
-      closePopup.removeEventListener('click', onClosePopup);
-      closePopup.removeEventListener('keydown', onClosePopup);
-      document.removeEventListener('keydown', onMapKeydown);
+      removePopupHandler();
     }
   };
 

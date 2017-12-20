@@ -3,6 +3,8 @@
 (function () {
   var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
   var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
+  var ONE_VALUE = 1;
+  var FIVE_VALUE = 5;
 
   var mapPopup = window.selectors.mapTemplate.querySelector('.popup');
   var mapCardElement = mapPopup.cloneNode(true);
@@ -10,11 +12,9 @@
   var cardFeatures = mapCardElement.querySelector('.popup__features');
 
   var getRoomWord = function (roomsNumber) {
-    var oneRoom = 1;
-    var fiveRooms = 5;
-    if (roomsNumber === oneRoom) {
+    if (roomsNumber === ONE_VALUE) {
       return 'комната';
-    } else if (roomsNumber > oneRoom && roomsNumber < fiveRooms) {
+    } else if (roomsNumber > ONE_VALUE && roomsNumber < FIVE_VALUE) {
       return 'комнаты';
     } else {
       return 'комнат';
@@ -22,19 +22,21 @@
   };
 
   var getGuestWord = function (guestsNumber) {
-    var oneGuest = 1;
-    if (guestsNumber === oneGuest) {
+    if (guestsNumber === ONE_VALUE) {
       return 'гостя';
     } else {
       return 'гостей';
     }
   };
-
-  var renderFeaturesList = function (features) {
+  var removeFeatursList = function () {
     var liElements = cardFeatures.querySelectorAll('.feature');
     [].forEach.call(liElements, function (liElement) {
       cardFeatures.removeChild(liElement);
     });
+  };
+
+  var renderFeaturesList = function (features) {
+    removeFeatursList();
     var liFragment = document.createDocumentFragment();
     var newElement;
     [].forEach.call(features, function (feature) {

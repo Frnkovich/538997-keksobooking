@@ -18,9 +18,9 @@
   var filteredAds = [];
 
   var setAds = function (newAds) {
-    for (var i = 0; i < newAds.length; i++) {
-      ads.push(newAds[i]);
-    }
+    [].forEach.call(newAds, function (ad) {
+      ads.push(ad);
+    });
   };
 
   var isHouseEqual = function (ad) {
@@ -47,17 +47,21 @@
     return guests.value === ad.offer.guests.toString() || guests.value === ANY_VALUE;
   };
 
-  var isFeaturesEqual = function (ad) {
-    var checkedFeatures = [].filter.call(features, function (elem) {
-      return elem.checked === true;
+  var getCheckedFeatures = function () {
+    return [].filter.call(features, function (elem) {
+      return elem.checked;
     });
+  };
 
-    if (!(checkedFeatures.length)) {
+  var areFeaturesEqual = function (ad) {
+    var checkedFeatures = getCheckedFeatures();
+
+    if (!checkedFeatures.length) {
       return true;
     }
 
     for (var i = 0; i < checkedFeatures.length; i++) {
-      if (!(ad.offer.features.includes(checkedFeatures[i].value))) {
+      if (!ad.offer.features.includes(checkedFeatures[i].value)) {
         return false;
       }
     }
@@ -65,7 +69,7 @@
   };
 
   var filterElement = function (ad) {
-    return isHouseEqual(ad) && isPriceEqual(ad) && isRoomsEqual(ad) && isGuestsEqual(ad) && isFeaturesEqual(ad);
+    return isHouseEqual(ad) && isPriceEqual(ad) && isRoomsEqual(ad) && isGuestsEqual(ad) && areFeaturesEqual(ad);
   };
 
   var filterArray = function () {
