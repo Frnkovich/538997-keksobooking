@@ -85,7 +85,7 @@
     };
 
     var onMouseMove = function (moveEvt) {
-      evt.preventDefault();
+      moveEvt.preventDefault();
 
       var shift = {
         x: startCoords.x - evt.clientX,
@@ -112,7 +112,7 @@
     };
 
     var onMouseUp = function (mouseUpEvt) {
-      mouseUpEvt.preventDefault();
+      evt.preventDefault();
       fillAddresField();
       window.pin.activateAll();
       document.removeEventListener('mousemove', onMouseMove);
