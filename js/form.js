@@ -21,8 +21,8 @@
   var getGuestsArray = function (num) {
     var guestOptions = [];
     if (num < MAX_ROOMS_NUMBER) {
-      guestOptions = [].filter.call(optionsGuestNumbers, function (elem) {
-        return elem.value <= num && elem.value !== MIN_GUESTS_NUMBER;
+      guestOptions = [].filter.call(optionsGuestNumbers, function (element) {
+        return element.value <= num && element.value !== MIN_GUESTS_NUMBER;
       });
     } else {
       guestOptions.push(optionsGuestNumbers[3]);
@@ -48,9 +48,14 @@
     window.utils.enableFields(getGuestsArray(evt.target.value));
   };
 
+  var onLoad = function () {
+    window.selectors.noticeForm.reset();
+    window.map.fillAddresField();
+  };
+
   var onSubmit = function (evt) {
     var fData = new FormData(window.selectors.noticeForm);
-    window.backend.save(fData, window.selectors.noticeForm.reset, window.utils.errorMessage);
+    window.backend.save(fData, onLoad, window.utils.errorMessage);
     evt.preventDefault();
   };
 

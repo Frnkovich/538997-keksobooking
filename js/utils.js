@@ -3,29 +3,37 @@
 (function () {
   var timeOut;
 
+  var removeErrorMessage = function () {
+    var node = document.querySelector('.error');
+    document.body.removeChild(node);
+  };
+
   var errorMessage = function (textError) {
     var node = document.createElement('div');
     node.style.border = '1px solid';
     node.style.textAlign = 'center';
-    node.style.width = '100%';
-    node.style.borderRadius = '5px';
+    node.style.width = '50%';
+    node.style.padding = '20';
+    node.style.opacity = '0.8';
     node.style.zIndex = '100';
     node.style.position = 'fixed';
     node.style.color = '#D8000C';
     node.style.background = '#FFBABA';
     node.style.fontSize = '30px';
     node.textContent = textError;
-    document.body.insertAdjacentElement('beforeBegin', node);
+    node.setAttribute('class', 'error');
+    document.body.insertAdjacentElement('afterbegin', node);
+    setTimeout(removeErrorMessage, 5000);
   };
 
-  var disableFields = function (fieldArray) {
-    [].forEach.call(fieldArray, function (field) {
+  var disableFields = function (fields) {
+    [].forEach.call(fields, function (field) {
       field.setAttribute('disabled', true);
     });
   };
 
-  var enableFields = function (fieldArray) {
-    [].forEach.call(fieldArray, function (field) {
+  var enableFields = function (fields) {
+    [].forEach.call(fields, function (field) {
       field.removeAttribute('disabled', true);
     });
   };
@@ -38,12 +46,13 @@
     field.setAttribute(attribute, changeValue);
   };
 
-  var debounce = function (func, wait) {
+  var debounce = function (callback, wait) {
     if (timeOut) {
       clearTimeout(timeOut);
     }
-    timeOut = setTimeout(func, wait);
+    timeOut = setTimeout(callback, wait);
   };
+
   var removeAllChildNodes = function (parent) {
     parent.textContent = '';
   };
@@ -58,8 +67,8 @@
   };
 
   var getCheckedChildNodes = function (parent) {
-    return [].filter.call(parent, function (elem) {
-      return elem.checked;
+    return [].filter.call(parent, function (element) {
+      return element.checked;
     });
   };
 

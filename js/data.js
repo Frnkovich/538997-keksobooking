@@ -68,8 +68,8 @@
     filteredAds = ads.filter(filterElement).slice(MIN_PIN_COUNT, MAX_PIN_COUNT);
   };
 
-  var getAd = function (num) {
-    return filteredAds[num];
+  var getAd = function (number) {
+    return filteredAds[number];
   };
 
   var getAdsCount = function () {
