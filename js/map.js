@@ -112,7 +112,7 @@
     };
 
     var onMouseUp = function (mouseUpEvt) {
-      evt.preventDefault();
+      mouseUpEvt.preventDefault();
       fillAddresField();
       window.pin.activateAll();
       document.removeEventListener('mousemove', onMouseMove);
