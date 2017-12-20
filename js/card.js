@@ -3,41 +3,33 @@
 (function () {
   var TYPE_LIST_RUS = ['Квартира', 'Дом', 'Бунгало'];
   var TYPE_LIST_ENG = ['flat', 'house', 'bungalo'];
+  var ONE_VALUE = 1;
+  var FIVE_VALUE = 5;
 
   var mapPopup = window.selectors.mapTemplate.querySelector('.popup');
   var mapCardElement = mapPopup.cloneNode(true);
   var mapTextElements = mapCardElement.querySelectorAll('p');
   var cardFeatures = mapCardElement.querySelector('.popup__features');
+  var cardPictures = mapCardElement.querySelector('.popup__pictures');
 
   var getRoomWord = function (roomsNumber) {
-    var oneRoom = 1;
-    var fiveRooms = 5;
-    if (roomsNumber === oneRoom) {
+    if (roomsNumber === ONE_VALUE) {
       return 'комната';
-    } else if (roomsNumber > oneRoom && roomsNumber < fiveRooms) {
+    } else if (roomsNumber > ONE_VALUE && roomsNumber < FIVE_VALUE) {
       return 'комнаты';
-    } else {
-      return 'комнат';
     }
+    return 'комнат';
   };
 
   var getGuestWord = function (guestsNumber) {
-    var oneGuest = 1;
-    if (guestsNumber === oneGuest) {
-      return 'гостя';
-    } else {
-      return 'гостей';
-    }
+    return guestsNumber === ONE_VALUE ? 'гостя' : 'гостей';
   };
 
   var renderFeaturesList = function (features) {
-    var liElements = cardFeatures.querySelectorAll('.feature');
-    [].forEach.call(liElements, function (liElement) {
-      cardFeatures.removeChild(liElement);
-    });
+    window.utils.removeAllChildNodes(cardFeatures);
     var liFragment = document.createDocumentFragment();
     var newElement;
-    [].forEach.call(features, function ы(feature) {
+    [].forEach.call(features, function (feature) {
       newElement = document.createElement('li');
       newElement.className = 'feature feature--' + feature;
       liFragment.appendChild(newElement);
@@ -55,6 +47,7 @@
     mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
     renderFeaturesList(ad.offer.features);
     mapTextElements[4].textContent = ad.offer.description;
+    cardPictures.setAttribute('hidden', '');
     mapCardElement.setAttribute('hidden', '');
     window.selectors.map.insertBefore(mapCardElement, window.selectors.map.querySelector('.map__filters-container'));
   };

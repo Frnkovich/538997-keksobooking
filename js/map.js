@@ -12,7 +12,6 @@
   var DELAY = 500;
 
   var mapPinMain = window.selectors.map.querySelector('.map__pin--main');
-  var noticeFormFieldsets = window.selectors.noticeForm.querySelectorAll('fieldset');
   var inputAddress = window.selectors.noticeForm.querySelector('#address');
   var mapCard = window.selectors.map.querySelector('.popup');
   var mapFilter = window.selectors.map.querySelector('.map__filters');
@@ -27,15 +26,21 @@
     }
   };
 
-  var isMapPin = function (classList) {
-    return classList.contains('map__pin') && !classList.contains('map__pin--main');
+  var isMapPin = function (elem) {
+    return elem.classList.contains('map__pin') && !elem.classList.contains('map__pin--main');
+  };
+
+  var removePopupHandler = function () {
+    closePopup.removeEventListener('click', onClosePopup);
+    closePopup.removeEventListener('keydown', onClosePopup);
+    document.removeEventListener('keydown', onMapKeydown);
   };
 
   var onMapPin = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       if (evt.target !== evt.currentTarget) {
-        var pinClicked = isMapPin(evt.target.classList);
-        var imageClicked = isMapPin(evt.target.parentElement .classList);
+        var pinClicked = isMapPin(evt.target);
+        var imageClicked = isMapPin(evt.target.parentElement);
         if (pinClicked || imageClicked) {
           var clickedPin = pinClicked ? evt.target : evt.target.parentElement;
           window.showCard(clickedPin);
@@ -54,18 +59,14 @@
   var onClosePopup = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       hideAd();
-      closePopup.removeEventListener('click', onClosePopup);
-      closePopup.removeEventListener('keydown', onClosePopup);
-      document.removeEventListener('keydown', onMapKeydown);
+      removePopupHandler();
     }
   };
 
   var onMapKeydown = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       hideAd();
-      closePopup.removeEventListener('click', onClosePopup);
-      closePopup.removeEventListener('keydown', onClosePopup);
-      document.removeEventListener('keydown', onMapKeydown);
+      removePopupHandler();
     }
   };
 
@@ -124,8 +125,7 @@
     window.pin.render();
   };
 
-  window.utils.disableFields(noticeFormFieldsets);
-  var renderMap = function () {
+  var initializeMap = function () {
     window.data.filterArray();
     mapPinMain.addEventListener('mousedown', onMainPin);
     window.selectors.mapPins.addEventListener('click', onMapPin);
@@ -136,6 +136,6 @@
   };
 
   window.map = {
-    render: renderMap
+    initialize: initializeMap
   };
 })();

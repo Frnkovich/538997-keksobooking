@@ -5,6 +5,7 @@
   var mapPins = map.querySelector('.map__pins');
   var mapTemplate = document.querySelector('template').content;
   var noticeForm = document.querySelector('.notice__form');
+  noticeForm.reset = noticeForm.reset.bind(noticeForm);
 
   window.selectors = {
     map: map,

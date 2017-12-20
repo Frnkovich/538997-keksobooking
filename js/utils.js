@@ -44,6 +44,24 @@
     }
     timeOut = setTimeout(func, wait);
   };
+  var removeAllChildNodes = function (parent) {
+    parent.textContent = '';
+  };
+
+  var removeChildNodes = function (parent, childs) {
+    var childNodes = parent.querySelectorAll(childs);
+    var cloneParent = parent;
+    [].forEach.call(childNodes, function (child) {
+      cloneParent.removeChild(child);
+    });
+    parent = cloneParent;
+  };
+
+  var getCheckedChildNodes = function (parent) {
+    return [].filter.call(parent, function (elem) {
+      return elem.checked;
+    });
+  };
 
   window.utils = {
     errorMessage: errorMessage,
@@ -51,6 +69,9 @@
     enableFields: enableFields,
     syncValues: syncValues,
     syncValueToAttribute: syncValueToAttribute,
-    debounce: debounce
+    debounce: debounce,
+    removeAllChildNodes: removeAllChildNodes,
+    removeChildNodes: removeChildNodes,
+    getCheckedChildNodes: getCheckedChildNodes
   };
 })();
