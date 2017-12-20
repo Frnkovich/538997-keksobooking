@@ -8,6 +8,7 @@
   var mapCardElement = mapPopup.cloneNode(true);
   var mapTextElements = mapCardElement.querySelectorAll('p');
   var cardFeatures = mapCardElement.querySelector('.popup__features');
+  var cardPictures = mapCardElement.querySelector('.popup__pictures');
 
   var getRoomWord = function (roomsNumber) {
     var oneRoom = 1;
@@ -37,7 +38,7 @@
     });
     var liFragment = document.createDocumentFragment();
     var newElement;
-    [].forEach.call(features, function ы(feature) {
+    [].forEach.call(features, function (feature) {
       newElement = document.createElement('li');
       newElement.className = 'feature feature--' + feature;
       liFragment.appendChild(newElement);

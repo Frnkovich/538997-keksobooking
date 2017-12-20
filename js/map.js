@@ -12,7 +12,6 @@
   var DELAY = 500;
 
   var mapPinMain = window.selectors.map.querySelector('.map__pin--main');
-  var noticeFormFieldsets = window.selectors.noticeForm.querySelectorAll('fieldset');
   var inputAddress = window.selectors.noticeForm.querySelector('#address');
   var mapCard = window.selectors.map.querySelector('.popup');
   var mapFilter = window.selectors.map.querySelector('.map__filters');
@@ -124,7 +123,6 @@
     window.pin.render();
   };
 
-  window.utils.disableFields(noticeFormFieldsets);
   var renderMap = function () {
     window.data.filterArray();
     mapPinMain.addEventListener('mousedown', onMainPin);

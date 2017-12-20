@@ -16,6 +16,7 @@
   var selectRoomNumber = window.selectors.noticeForm.querySelector('#room_number');
   var selectGuestNumber = window.selectors.noticeForm.querySelector('#capacity');
   var optionsGuestNumbers = selectGuestNumber.querySelectorAll('option');
+  var noticeFormFieldsets = window.selectors.noticeForm.querySelectorAll('fieldset');
 
   var getGuestsArray = function (num) {
     var guestOptions = [];
@@ -54,6 +55,7 @@
   };
 
   var renderForm = function () {
+    window.utils.disableFields(noticeFormFieldsets);
     window.utils.disableFields(optionsGuestNumbers);
     window.utils.enableFields(getGuestsArray(1));
     selectTypeLodging.addEventListener('change', onSelectTypeLodging);
