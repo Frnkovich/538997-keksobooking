@@ -44,11 +44,17 @@
     }
     timeOut = setTimeout(func, wait);
   };
+  var removeAllChildNodes = function (parent) {
+    parent.textContent = "";
+  };
 
-  var removeChildNodes = function (parent, childrens) {
-    [].forEach.call(childrens, function (child) {
-      parent.removeChild(child);
+  var removeChildNodes = function (parent, childs) {
+    var childNodes = parent.querySelectorAll(childs);
+    var cloneParent = parent;
+    [].forEach.call(childNodes, function (child) {
+      cloneParent.removeChild(child);
     });
+    parent = cloneParent;
   };
 
   var getCheckedChildNodes = function (parent) {
@@ -64,6 +70,7 @@
     syncValues: syncValues,
     syncValueToAttribute: syncValueToAttribute,
     debounce: debounce,
+    removeAllChildNodes: removeAllChildNodes,
     removeChildNodes: removeChildNodes,
     getCheckedChildNodes: getCheckedChildNodes
   };

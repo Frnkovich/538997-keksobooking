@@ -125,7 +125,7 @@
     window.pin.render();
   };
 
-  var renderMap = function () {
+  var initializationMap = function () {
     window.data.filterArray();
     mapPinMain.addEventListener('mousedown', onMainPin);
     window.selectors.mapPins.addEventListener('click', onMapPin);
@@ -136,6 +136,6 @@
   };
 
   window.map = {
-    render: renderMap
+    initialization: initializationMap
   };
 })();

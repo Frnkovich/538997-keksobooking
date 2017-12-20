@@ -27,7 +27,7 @@
 
   var renderFeaturesList = function (features) {
     var liElements = cardFeatures.querySelectorAll('.feature');
-    window.utils.removeChildNodes(cardFeatures, liElements);
+    window.utils.removeAllChildNodes(cardFeatures);
     var liFragment = document.createDocumentFragment();
     var newElement;
     [].forEach.call(features, function (feature) {
