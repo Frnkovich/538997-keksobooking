@@ -88,8 +88,8 @@
       moveEvt.preventDefault();
 
       var shift = {
-        x: startCoords.x - evt.clientX,
-        y: startCoords.y - evt.clientY
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
       };
 
       startCoords = {
