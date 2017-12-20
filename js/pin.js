@@ -18,16 +18,17 @@
   };
 
   var removeMapPins = function () {
-    var mapPinAll = window.selectors.mapPins.querySelectorAll('.map__pin');
-    for (var i = 1; i < mapPinAll.length; i++) {
-      window.selectors.mapPins.removeChild(mapPinAll[i]);
-    }
+    var mapPinAll = window.selectors.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    [].forEach.call(mapPinAll, function (pin) {
+      window.selectors.mapPins.removeChild(pin);
+    });
   };
 
   var renderPins = function () {
     removeMapPins();
+    var adsCount = window.data.getAdsCount();
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.getAdsCount(); i++) {
+    for (var i = 0; i < adsCount; i++) {
       fragment.appendChild(renderMapPin(window.data.getAd(i), i));
     }
     window.selectors.mapPins.appendChild(fragment);

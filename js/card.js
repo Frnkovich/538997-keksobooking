@@ -37,7 +37,7 @@
     });
     var liFragment = document.createDocumentFragment();
     var newElement;
-    [].forEach.call(features, function ы(feature) {
+    [].forEach.call(features, function (feature) {
       newElement = document.createElement('li');
       newElement.className = 'feature feature--' + feature;
       liFragment.appendChild(newElement);
