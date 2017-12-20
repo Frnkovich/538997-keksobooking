@@ -3,19 +3,27 @@
 (function () {
   var timeOut;
 
+  var removeNode = function () {
+    var node = document.querySelector('.error');
+    document.body.removeChild(node);
+  };
+
   var errorMessage = function (textError) {
     var node = document.createElement('div');
     node.style.border = '1px solid';
     node.style.textAlign = 'center';
-    node.style.width = '100%';
-    node.style.borderRadius = '5px';
+    node.style.width = '50%';
+    node.style.padding = '20';
+    node.style.opacity = '0.8'
     node.style.zIndex = '100';
     node.style.position = 'fixed';
     node.style.color = '#D8000C';
     node.style.background = '#FFBABA';
     node.style.fontSize = '30px';
     node.textContent = textError;
-    document.body.insertAdjacentElement('beforeBegin', node);
+    node.setAttribute('class', 'error');
+    document.body.insertAdjacentElement('afterbegin', node);
+    setTimeout(removeNode, 5000);
   };
 
   var disableFields = function (fields) {

@@ -14,6 +14,8 @@
         if (typeof callback === 'function') {
           callback();
         }
+      } else if (xhr.status === 400) {
+        onError(xhr.response[0].fieldName + ' ' + xhr.response[0].errorMessage);
       } else {
         onError(xhr.response);
       }
