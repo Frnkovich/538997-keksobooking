@@ -26,8 +26,8 @@
     }
   };
 
-  var isMapPin = function (classList) {
-    return classList.contains('map__pin') && !classList.contains('map__pin--main');
+  var isMapPin = function (elem) {
+    return elem.classList.contains('map__pin') && !elem.classList.contains('map__pin--main');
   };
 
   var removePopupHandler = function () {
@@ -39,8 +39,8 @@
   var onMapPin = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
       if (evt.target !== evt.currentTarget) {
-        var pinClicked = isMapPin(evt.target.classList);
-        var imageClicked = isMapPin(evt.target.parentElement.classList);
+        var pinClicked = isMapPin(evt.target);
+        var imageClicked = isMapPin(evt.target.parentElement);
         if (pinClicked || imageClicked) {
           var clickedPin = pinClicked ? evt.target : evt.target.parentElement;
           window.showCard(clickedPin);
