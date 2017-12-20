@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var timeOut;
+
   var errorMessage = function (textError) {
     var node = document.createElement('div');
     node.style.border = '1px solid';
@@ -17,15 +19,15 @@
   };
 
   var disableFields = function (fieldArray) {
-    for (var i = 0; i < fieldArray.length; i++) {
-      fieldArray[i].setAttribute('disabled', true);
-    }
+    [].forEach.call(fieldArray, function (field) {
+      field.setAttribute('disabled', true);
+    });
   };
 
   var enableFields = function (fieldArray) {
-    for (var i = 0; i < fieldArray.length; i++) {
-      fieldArray[i].removeAttribute('disabled');
-    }
+    [].forEach.call(fieldArray, function (field) {
+      field.removeAttribute('disabled', true);
+    });
   };
 
   var syncValues = function (field, changeValue) {
@@ -36,24 +38,11 @@
     field.setAttribute(attribute, changeValue);
   };
 
-  var debounce = function (func, wait, immediate) {
-    var timeout;
-    return function () {
-      var context = this;
-      var args = arguments;
-      var later = function () {
-        timeout = null;
-        if (!immediate) {
-          func.apply(context, args);
-        }
-      };
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) {
-        func.apply(context, args);
-      }
-    };
+  var debounce = function (func, wait) {
+    if (timeOut) {
+      clearTimeout(timeOut);
+    }
+    timeOut = setTimeout(func, wait);
   };
 
   window.utils = {
@@ -61,7 +50,7 @@
     disableFields: disableFields,
     enableFields: enableFields,
     syncValues: syncValues,
-    debounce: debounce,
-    syncValueToAttribute: syncValueToAttribute
+    syncValueToAttribute: syncValueToAttribute,
+    debounce: debounce
   };
 })();

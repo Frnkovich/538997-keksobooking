@@ -9,15 +9,13 @@
   var MAX_X = 1150;
   var MIN_Y = 150;
   var MAX_Y = 650;
+  var DELAY = 500;
 
-  var map = document.querySelector('.map');
-  var mapPinMain = map.querySelector('.map__pin--main');
-  var noticeForm = document.querySelector('.notice__form');
-  var noticeFormFieldset = noticeForm.querySelectorAll('fieldset');
-  var mapPins = map.querySelector('.map__pins');
-  var inputAddress = noticeForm.querySelector('#address');
-  var mapCard = map.querySelector('.popup');
-  var mapFilter = map.querySelector('.map__filters');
+  var mapPinMain = window.selectors.map.querySelector('.map__pin--main');
+  var noticeFormFieldsets = window.selectors.noticeForm.querySelectorAll('fieldset');
+  var inputAddress = window.selectors.noticeForm.querySelector('#address');
+  var mapCard = window.selectors.map.querySelector('.popup');
+  var mapFilter = window.selectors.map.querySelector('.map__filters');
   var closePopup;
 
   var hideAd = function () {
@@ -41,8 +39,8 @@
         if (pinClicked || imageClicked) {
           var clickedPin = pinClicked ? evt.target : evt.target.parentElement;
           window.showCard(clickedPin);
-          mapCard = map.querySelector('.popup');
-          closePopup = map.querySelector('.popup__close');
+          mapCard = window.selectors.map.querySelector('.popup');
+          closePopup = window.selectors.map.querySelector('.popup__close');
           mapCard.removeAttribute('hidden');
           closePopup.addEventListener('click', onClosePopup);
           closePopup.addEventListener('keydown', onClosePopup);
@@ -73,12 +71,15 @@
 
   var onMainPin = function (evt) {
     evt.preventDefault();
+
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
+
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
@@ -88,6 +89,7 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
+
       var newY = mapPinMain.offsetTop - shift.y;
       var newX = mapPinMain.offsetLeft - shift.x;
 
@@ -104,7 +106,10 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      window.pin.onMainPinClick(upEvt);
+      var x = mapPinMain.offsetLeft + MAP_PIN_MAIN_WIDTH / 2;
+      var y = mapPinMain.offsetTop + MAP_PIN_MAIN_HEIGHT;
+      inputAddress.value = 'x: ' + x + ', y: ' + y;
+      window.pin.activateAll();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -116,20 +121,21 @@
   var onFilterChange = function () {
     hideAd();
     window.data.filterArray();
-    window.pin.renderPins();
+    window.pin.render();
   };
 
-  window.utils.disableFields(noticeFormFieldset);
+  window.utils.disableFields(noticeFormFieldsets);
   var renderMap = function () {
     window.data.filterArray();
-    var debounceFilter = window.utils.debounce(onFilterChange, 500);
     mapPinMain.addEventListener('mousedown', onMainPin);
-    mapPins.addEventListener('click', onMapPin);
-    mapPins.addEventListener('keydown', onMapPin);
-    mapFilter.addEventListener('change', debounceFilter);
+    window.selectors.mapPins.addEventListener('click', onMapPin);
+    window.selectors.mapPins.addEventListener('keydown', onMapPin);
+    mapFilter.addEventListener('change', function () {
+      window.utils.debounce(onFilterChange, DELAY);
+    });
   };
 
   window.map = {
-    renderMap: renderMap
+    render: renderMap
   };
 })();
