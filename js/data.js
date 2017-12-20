@@ -17,8 +17,8 @@
   var ads = [];
   var filteredAds = [];
 
-  var setAds = function (newAds) {
-    ads = newAds.slice();
+  var setAds = function (allAds) {
+    ads = allAds.slice();
   };
 
   var isHouseEqual = function (ad) {

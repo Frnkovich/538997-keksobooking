@@ -10,6 +10,7 @@
   var mapCardElement = mapPopup.cloneNode(true);
   var mapTextElements = mapCardElement.querySelectorAll('p');
   var cardFeatures = mapCardElement.querySelector('.popup__features');
+  var cardPictures = mapCardElement.querySelector('.popup__pictures');
 
   var getRoomWord = function (roomsNumber) {
     if (roomsNumber === ONE_VALUE) {
@@ -47,6 +48,7 @@
     mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
     renderFeaturesList(ad.offer.features);
     mapTextElements[4].textContent = ad.offer.description;
+    cardPictures.setAttribute('hidden', '');
     mapCardElement.setAttribute('hidden', '');
     window.selectors.map.insertBefore(mapCardElement, window.selectors.map.querySelector('.map__filters-container'));
   };
