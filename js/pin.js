@@ -17,15 +17,9 @@
     return mapElement;
   };
 
-  var removeMapPins = function () {
-    var mapPinAll = window.selectors.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-    [].forEach.call(mapPinAll, function (pin) {
-      window.selectors.mapPins.removeChild(pin);
-    });
-  };
-
   var renderPins = function () {
-    removeMapPins();
+    var mapPinAll = window.selectors.mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    window.utils.removeChildNodes(window.selectors.mapPins, mapPinAll);
     var adsCount = window.data.getAdsCount();
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < adsCount; i++) {

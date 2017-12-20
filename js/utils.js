@@ -45,12 +45,26 @@
     timeOut = setTimeout(func, wait);
   };
 
+  var removeChildNodes = function (parent, childrens) {
+    [].forEach.call(childrens, function (child) {
+      parent.removeChild(child);
+    });
+  };
+
+  var getCheckedChildNodes = function (parent) {
+    return [].filter.call(parent, function (elem) {
+      return elem.checked;
+    });
+  };
+
   window.utils = {
     errorMessage: errorMessage,
     disableFields: disableFields,
     enableFields: enableFields,
     syncValues: syncValues,
     syncValueToAttribute: syncValueToAttribute,
-    debounce: debounce
+    debounce: debounce,
+    removeChildNodes: removeChildNodes,
+    getCheckedChildNodes: getCheckedChildNodes
   };
 })();

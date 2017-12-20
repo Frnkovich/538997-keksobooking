@@ -18,9 +18,7 @@
   var filteredAds = [];
 
   var setAds = function (newAds) {
-    [].forEach.call(newAds, function (ad) {
-      ads.push(ad);
-    });
+    ads = newAds.slice();
   };
 
   var isHouseEqual = function (ad) {
@@ -47,14 +45,8 @@
     return guests.value === ad.offer.guests.toString() || guests.value === ANY_VALUE;
   };
 
-  var getCheckedFeatures = function () {
-    return [].filter.call(features, function (elem) {
-      return elem.checked;
-    });
-  };
-
   var areFeaturesEqual = function (ad) {
-    var checkedFeatures = getCheckedFeatures();
+    var checkedFeatures = window.utils.getCheckedChildNodes(features);
 
     if (!checkedFeatures.length) {
       return true;

@@ -16,27 +16,17 @@
       return 'комната';
     } else if (roomsNumber > ONE_VALUE && roomsNumber < FIVE_VALUE) {
       return 'комнаты';
-    } else {
-      return 'комнат';
     }
+    return 'комнат';
   };
 
   var getGuestWord = function (guestsNumber) {
-    if (guestsNumber === ONE_VALUE) {
-      return 'гостя';
-    } else {
-      return 'гостей';
-    }
-  };
-  var removeFeatursList = function () {
-    var liElements = cardFeatures.querySelectorAll('.feature');
-    [].forEach.call(liElements, function (liElement) {
-      cardFeatures.removeChild(liElement);
-    });
+    return guestsNumber === ONE_VALUE ? 'гостя' : 'гостей';
   };
 
   var renderFeaturesList = function (features) {
-    removeFeatursList();
+    var liElements = cardFeatures.querySelectorAll('.feature');
+    window.utils.removeChildNodes(cardFeatures, liElements);
     var liFragment = document.createDocumentFragment();
     var newElement;
     [].forEach.call(features, function (feature) {
