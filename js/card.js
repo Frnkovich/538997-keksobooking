@@ -25,16 +25,29 @@
     return guestsNumber === ONE_VALUE ? 'гостя' : 'гостей';
   };
 
-  var renderFeaturesList = function (features) {
-    window.utils.removeAllChildNodes(cardFeatures);
+  var insertFeatureElement = function (element, liElement){
+    liElement.className = 'feature feature--' + element;
+  };
+
+  var insertImageElement = function (element, liElement) {
+    var image = document.createElement('img');
+    liElement.appendChild(image);
+    image.src = element;
+    image.style.width = 'auto';
+    image.style.height = '30px';
+    image.style.margin = '2px';
+  };
+
+  var renderList = function (list, selector, callback) {
+    window.utils.removeAllChildNodes(selector);
     var liFragment = document.createDocumentFragment();
-    var newElement;
-    [].forEach.call(features, function (feature) {
-      newElement = document.createElement('li');
-      newElement.className = 'feature feature--' + feature;
-      liFragment.appendChild(newElement);
+    [].forEach.call(list, function (element) {
+      var liElement = document.createElement('li');
+      callback(element, liElement);
+      liFragment.appendChild(liElement);
     });
-    cardFeatures.appendChild(liFragment);
+
+    selector.appendChild(liFragment);
   };
 
   var renderAd = function (ad) {
@@ -45,9 +58,9 @@
     mapCardElement.querySelector('h4').textContent = TYPE_LIST_RUS[TYPE_LIST_ENG.indexOf(ad.offer.type)];
     mapTextElements[2].textContent = ad.offer.rooms + ' ' + getRoomWord(ad.offer.rooms) + ' для ' + ad.offer.guests + ' ' + getGuestWord(ad.offer.guests);
     mapTextElements[3].textContent = 'Заезд после ' + ad.offer.checkin + ' , выезд до ' + ad.offer.checkout;
-    renderFeaturesList(ad.offer.features);
+    renderList(ad.offer.features, cardFeatures, insertFeatureElement);
+    renderList(ad.offer.photos, cardPictures, insertImageElement);
     mapTextElements[4].textContent = ad.offer.description;
-    cardPictures.setAttribute('hidden', '');
     mapCardElement.setAttribute('hidden', '');
     window.selectors.map.insertBefore(mapCardElement, window.selectors.map.querySelector('.map__filters-container'));
   };

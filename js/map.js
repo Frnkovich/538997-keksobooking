@@ -86,7 +86,6 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
@@ -138,9 +137,8 @@
       window.utils.debounce(onFilterChange, DELAY);
     });
   };
-
+  window.backend.load(window.data.setAds, window.utils.errorMessage, initializeMap);
   window.map = {
-    initialize: initializeMap,
     fillAddresField: fillAddresField
   };
 })();

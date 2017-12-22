@@ -17,6 +17,13 @@
   var selectGuestNumber = window.selectors.noticeForm.querySelector('#capacity');
   var optionsGuestNumbers = selectGuestNumber.querySelectorAll('option');
   var noticeFormFieldsets = window.selectors.noticeForm.querySelectorAll('fieldset');
+  var imageButtons = window.selectors.noticeForm.querySelectorAll('.upload input[type=file]');
+  var avatarChooser = imageButtons[0];
+  var photosChooser = imageButtons[1];
+  var avatarContainer = window.selectors.noticeForm.querySelector('.notice__preview').firstElementChild;
+  var dropZone = window.selectors.noticeForm.querySelector('.form__photo-container')
+  var photosContainer = document.createElement('p');
+  dropZone.appendChild(photosContainer);
 
   var getGuestsArray = function (num) {
     var guestOptions = [];
@@ -59,7 +66,7 @@
     evt.preventDefault();
   };
 
-  var renderForm = function () {
+  (function () {
     window.utils.disableFields(noticeFormFieldsets);
     window.utils.disableFields(optionsGuestNumbers);
     window.utils.enableFields(getGuestsArray(1));
@@ -68,9 +75,16 @@
     selectTimeOut.addEventListener('change', onSelectTimeOut);
     selectRoomNumber.addEventListener('change', onSelectRoomNumber);
     window.selectors.noticeForm.addEventListener('submit', onSubmit);
-  };
-
-  window.form = {
-    render: renderForm()
-  };
+    avatarChooser.addEventListener('change', function () {
+      var avatarImage = avatarChooser.files[0];
+      window.utils.uploadImage(avatarImage, avatarContainer);
+    });
+    photosChooser.addEventListener('change', function () {
+      var photoImage = photosChooser.files[0];
+      var photoContainer = document.createElement('img');
+      photoContainer.style.width = '80%';
+      window.utils.uploadImage(photoImage, photoContainer);
+      photosContainer.appendChild(photoContainer);
+    });
+  })();
 })();

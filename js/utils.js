@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var timeOut;
 
   var removeErrorMessage = function () {
@@ -72,6 +73,24 @@
     });
   };
 
+  var uploadImage = function (image, imageContainer) {
+    var imageName = image.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (type) {
+      return imageName.endsWith(type);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        imageContainer.setAttribute('src', reader.result);
+      });
+
+      reader.readAsDataURL(image);
+    };
+  };
+
   window.utils = {
     errorMessage: errorMessage,
     disableFields: disableFields,
@@ -81,6 +100,7 @@
     debounce: debounce,
     removeAllChildNodes: removeAllChildNodes,
     removeChildNodes: removeChildNodes,
+    uploadImage: uploadImage,
     getCheckedChildNodes: getCheckedChildNodes
   };
 })();
