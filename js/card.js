@@ -25,7 +25,7 @@
     return guestsNumber === ONE_VALUE ? 'гостя' : 'гостей';
   };
 
-  var insertFeatureElement = function (element, liElement){
+  var insertFeatureElement = function (element, liElement) {
     liElement.className = 'feature feature--' + element;
   };
 

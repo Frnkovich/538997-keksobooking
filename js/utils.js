@@ -88,7 +88,7 @@
       });
 
       reader.readAsDataURL(image);
-    };
+    }
   };
 
   window.utils = {

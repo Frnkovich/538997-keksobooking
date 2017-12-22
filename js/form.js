@@ -21,7 +21,7 @@
   var avatarChooser = imageButtons[0];
   var photosChooser = imageButtons[1];
   var avatarContainer = window.selectors.noticeForm.querySelector('.notice__preview').firstElementChild;
-  var dropZone = window.selectors.noticeForm.querySelector('.form__photo-container')
+  var dropZone = window.selectors.noticeForm.querySelector('.form__photo-container');
   var photosContainer = document.createElement('p');
   dropZone.appendChild(photosContainer);
 
